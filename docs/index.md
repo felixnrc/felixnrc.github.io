@@ -1,9 +1,9 @@
-# Bienvenidos a mi web "felixnrc.ar"
+# Bienvenidos a mi web
 
 ![felixnrc](https://avatars.githubusercontent.com/u/42502767?v=4)
 
 Hola, mi nombre es Félix. He creado esta web para mis anotaciones
-sobre temas de mi interes como:
+sobre temas de mi interés como:
 
 - [Grafana](https://grafana.com/)
 - [Prometheus](https://prometheus.io/)
