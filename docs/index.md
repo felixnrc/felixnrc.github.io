@@ -17,3 +17,7 @@ sobre temas de mi interés como:
 - [Kubernetes](https://kubernetes.io/es/)
 
 Entre algunas cosas más.
+
+## Video de entrevista con Fabian.
+
+[![Video de entrevista](https://i9.ytimg.com/vi/OMeX2No6o4w/mq3.jpg?sqp=CJSpu5QG&rs=AOn4CLDPmFg8cKG8I9CTikT4JTEj4s7ZNA)](https://www.youtube.com/watch?v=OMeX2No6o4w)
