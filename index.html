@@ -1,424 +1,692 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Felix Natanael Rojas Carballo — SysAdmin Sr. | Linux · Docker · Automatización · Infraestructura Crítica · +5 años en entornos 24/7">
+  <title>Felix Rojas Carballo — SysAdmin Sr.</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-<!doctype html>
-<html lang="es" class="no-js">
-  <head>
-    
-      <meta charset="utf-8">
-      <meta name="viewport" content="width=device-width,initial-scale=1">
-      
-      
-      
-      <link rel="icon" href="assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.3.0, mkdocs-material-8.2.15">
-    
-    
-      
-        <title>FelixNRC</title>
-      
-    
-    
-      <link rel="stylesheet" href="assets/stylesheets/main.c382b1dc.min.css">
-      
-        
-        <link rel="stylesheet" href="assets/stylesheets/palette.cc9b2e1e.min.css">
-        
-      
-    
-    
-    
-      
-        
-        
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
-        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
-      
-    
-    
-    <script>__md_scope=new URL(".",location),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
-    
-      
-  
+    :root {
+      --bg:      #060912;
+      --bg1:     #0d1117;
+      --glass:   rgba(255,255,255,0.05);
+      --border:  rgba(255,255,255,0.09);
+      --prim:    #818cf8;
+      --primd:   #4f46e5;
+      --sec:     #c084fc;
+      --acc:     #34d399;
+      --cyan:    #22d3ee;
+      --text:    #f1f5f9;
+      --muted:   #94a3b8;
+      --subtle:  #475569;
+    }
 
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; line-height: 1.6; overflow-x: hidden; }
+    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--primd); border-radius: 3px; }
 
-  
-  
+    /* mesh */
+    .mesh {
+      position: fixed; inset: 0; z-index: 0; pointer-events: none;
+      background:
+        radial-gradient(ellipse 70% 55% at 15%  8%, rgba(99,102,241,.15) 0%, transparent 65%),
+        radial-gradient(ellipse 55% 45% at 85% 92%, rgba(168,85,247,.12) 0%, transparent 60%),
+        radial-gradient(ellipse 45% 35% at 55% 50%, rgba(34,211,238,.06) 0%, transparent 60%);
+    }
 
+    section { position: relative; z-index: 1; }
+    .container { max-width: 1080px; margin: 0 auto; padding: 0 2rem; }
 
-  <script>function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-008E9WLLXM"),document.addEventListener("DOMContentLoaded",function(){document.forms.search&&document.forms.search.query.addEventListener("blur",function(){this.value&&gtag("event","search",{search_term:this.value})}),"undefined"!=typeof location$&&location$.subscribe(function(e){gtag("config","G-008E9WLLXM",{page_path:e.pathname})})})</script>
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-008E9WLLXM"></script>
+    /* nav */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: .85rem 2rem;
+      backdrop-filter: blur(24px); background: rgba(6,9,18,.65);
+      border-bottom: 1px solid var(--border); transition: background .3s;
+    }
+    nav.scrolled { background: rgba(6,9,18,.96); }
+    .nav-logo { font-family: 'JetBrains Mono', monospace; font-weight: 600; color: var(--prim); font-size: .92rem; }
+    .nav-logo span { color: var(--subtle); }
+    .nav-links { display: flex; gap: 1.8rem; list-style: none; }
+    .nav-links a { color: var(--muted); text-decoration: none; font-size: .78rem; font-weight: 500; letter-spacing: .07em; text-transform: uppercase; transition: color .2s; }
+    .nav-links a:hover { color: var(--text); }
+    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; }
+    .hamburger span { display: block; width: 22px; height: 2px; background: var(--muted); border-radius: 2px; transition: all .3s; }
+    .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+    .mob-menu { display: none; position: fixed; top: 57px; left: 0; right: 0; z-index: 199; background: rgba(6,9,18,.97); border-bottom: 1px solid var(--border); padding: 1.5rem 2rem; backdrop-filter: blur(24px); }
+    .mob-menu.open { display: block; }
+    .mob-menu a { display: block; color: var(--muted); text-decoration: none; font-size: 1rem; padding: .75rem 0; border-bottom: 1px solid var(--border); }
+    .mob-menu a:last-child { border: none; }
 
+    /* buttons */
+    .btn { padding: .7rem 1.55rem; border-radius: .5rem; font-size: .87rem; font-weight: 600; text-decoration: none; cursor: pointer; transition: all .2s; display: inline-flex; align-items: center; gap: .45rem; border: none; }
+    .btn-p { background: linear-gradient(135deg, var(--primd), #7c3aed); color: #fff; }
+    .btn-p:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(99,102,241,.4); }
+    .btn-o { background: transparent; color: var(--text); border: 1px solid var(--border); }
+    .btn-o:hover { border-color: var(--prim); background: rgba(99,102,241,.1); transform: translateY(-2px); }
 
-    
-    
-  </head>
-  
-  
-    
-    
-      
-    
-    
-    
-    
-    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="" data-md-color-accent="">
-  
-    
-    
-      <script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var key of Object.keys(palette.color))document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
-    
-    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
-    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
-    <label class="md-overlay" for="__drawer"></label>
-    <div data-md-component="skip">
-      
-        
-        <a href="#bienvenidos-a-mi-web" class="md-skip">
-          Saltar a contenido
-        </a>
-      
-    </div>
-    <div data-md-component="announce">
-      
-    </div>
-    
-    
-      
+    /* section labels */
+    .lbl { font-family: 'JetBrains Mono', monospace; font-size: .73rem; color: var(--acc); letter-spacing: .15em; text-transform: uppercase; margin-bottom: .55rem; }
+    .stitle { font-size: clamp(1.65rem, 2.7vw, 2.2rem); font-weight: 700; margin-bottom: .75rem; }
+    .sdesc { color: var(--muted); max-width: 520px; margin-bottom: 2.8rem; font-size: .97rem; }
 
-<header class="md-header" data-md-component="header">
-  <nav class="md-header__inner md-grid" aria-label="Cabecera">
-    <a href="." title="FelixNRC" class="md-header__button md-logo" aria-label="FelixNRC" data-md-component="logo">
-      
-  
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.1.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M400 32c26.5 0 48 21.49 48 48v256c0 26.5-21.5 48-48 48H266.7l10.6 32H352c17.7 0 32 14.3 32 32s-14.3 32-32 32H96c-17.67 0-32-14.3-32-32s14.33-32 32-32h74.7l10.6-32H48c-26.51 0-48-21.5-48-48V80c0-26.51 21.49-48 48-48h352zM64 96v224h320V96H64zm528-64c26.5 0 48 21.49 48 48v352c0 26.5-21.5 48-48 48h-64c-26.5 0-48-21.5-48-48V80c0-26.51 21.5-48 48-48h64zm-48 64c-8.8 0-16 7.2-16 16s7.2 16 16 16h32c8.8 0 16-7.2 16-16s-7.2-16-16-16h-32zm0 96h32c8.8 0 16-7.2 16-16s-7.2-16-16-16h-32c-8.8 0-16 7.2-16 16s7.2 16 16 16zm16 208c17.7 0 32-14.3 32-32s-14.3-32-32-32-32 14.3-32 32 14.3 32 32 32z"/></svg>
+    /* animations */
+    @keyframes fadeUp { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
+    @keyframes fadeIn  { from { opacity:0; } to { opacity:1; } }
+    @keyframes spin    { to { transform: rotate(360deg); } }
+    @keyframes gpulse  { 0%,100% { transform:scale(1); opacity:1; } 50% { transform:scale(1.07); opacity:.6; } }
+    @keyframes blink   { 0%,100% { opacity:1; } 50% { opacity:0; } }
 
-    </a>
-    <label class="md-header__button md-icon" for="__drawer">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
-    </label>
-    <div class="md-header__title" data-md-component="header-title">
-      <div class="md-header__ellipsis">
-        <div class="md-header__topic">
-          <span class="md-ellipsis">
-            FelixNRC
-          </span>
-        </div>
-        <div class="md-header__topic" data-md-component="header-topic">
-          <span class="md-ellipsis">
-            
-              Bienvenidos a mi web
-            
-          </span>
-        </div>
-      </div>
-    </div>
-    
-      <form class="md-header__option" data-md-component="palette">
-        
-          
-          
-          <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="" data-md-color-accent=""  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
-          
-            <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_2" hidden>
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3 3.19.09m3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95 2.06.05m-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31Z"/></svg>
-            </label>
-          
-        
-          
-          
-          <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="" data-md-color-accent=""  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_2">
-          
-            <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5c-.84 0-1.65.15-2.39.42L12 2M3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29L3.34 7m.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14L3.36 17M20.65 7l-1.77 3.79a7.023 7.023 0 0 0-2.38-4.15l4.15.36m-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29L20.64 17M12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44L12 22Z"/></svg>
-            </label>
-          
-        
-      </form>
-    
-    
-    
-      <label class="md-header__button md-icon" for="__search">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
-      </label>
-      <div class="md-search" data-md-component="search" role="dialog">
-  <label class="md-search__overlay" for="__search"></label>
-  <div class="md-search__inner" role="search">
-    <form class="md-search__form" name="search">
-      <input type="text" class="md-search__input" name="query" aria-label="Búsqueda" placeholder="Búsqueda" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
-      <label class="md-search__icon md-icon" for="__search">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
-      </label>
-      <nav class="md-search__options" aria-label="Search">
-        
-        <button type="reset" class="md-search__icon md-icon" aria-label="Limpiar" tabindex="-1">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
-        </button>
-      </nav>
-      
-    </form>
-    <div class="md-search__output">
-      <div class="md-search__scrollwrap" data-md-scrollfix>
-        <div class="md-search-result" data-md-component="search-result">
-          <div class="md-search-result__meta">
-            Inicializando búsqueda
-          </div>
-          <ol class="md-search-result__list"></ol>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-    
-    
-  </nav>
-  
-</header>
-    
-    <div class="md-container" data-md-component="container">
-      
-      
-        
-          
-            
-<nav class="md-tabs" aria-label="Pestañas" data-md-component="tabs">
-  <div class="md-tabs__inner md-grid">
-    <ul class="md-tabs__list">
-      
-        
-  
-  
-    
-  
+    .reveal { opacity: 0; transform: translateY(26px); transition: opacity .65s ease, transform .65s ease; }
+    .reveal.vis { opacity: 1; transform: translateY(0); }
 
+    /* ========= HERO ========= */
+    #hero { min-height: 100vh; display: flex; align-items: center; padding: 6rem 2rem 4rem; }
+    .hero-in { max-width: 1080px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
 
-  <li class="md-tabs__item">
-    <a href="." class="md-tabs__link md-tabs__link--active">
-      Bienvenidos a mi web
-    </a>
-  </li>
+    .badge {
+      display: inline-flex; align-items: center; gap: .45rem;
+      background: rgba(52,211,153,.1); border: 1px solid rgba(52,211,153,.25);
+      color: var(--acc); font-size: .78rem; font-weight: 600; letter-spacing: .05em;
+      padding: .3rem .85rem; border-radius: 2rem; margin-bottom: .9rem;
+      opacity: 0; animation: fadeUp .6s .15s forwards;
+    }
+    .badge .dot-live { width: 7px; height: 7px; border-radius: 50%; background: var(--acc); animation: gpulse 2s ease-in-out infinite; }
 
-      
-    </ul>
-  </div>
-</nav>
-          
-        
-      
-      <main class="md-main" data-md-component="main">
-        <div class="md-main__inner md-grid">
-          
-            
-              
-              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
-                <div class="md-sidebar__scrollwrap">
-                  <div class="md-sidebar__inner">
-                    
+    h1 { font-size: clamp(2.4rem, 4.2vw, 3.6rem); font-weight: 800; line-height: 1.1; margin-bottom: .85rem; opacity: 0; animation: fadeUp .6s .35s forwards; }
+    h1 .grad { background: linear-gradient(135deg, var(--prim), var(--sec)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
 
-  
+    .tw-wrap { font-family: 'JetBrains Mono', monospace; font-size: 1rem; color: var(--muted); margin-bottom: 1.3rem; min-height: 1.5rem; opacity: 0; animation: fadeUp .6s .55s forwards; }
+    .cursor { animation: blink 1s step-end infinite; color: var(--prim); }
+    .hero-p { color: var(--muted); font-size: .97rem; max-width: 460px; margin-bottom: 1.8rem; opacity: 0; animation: fadeUp .6s .75s forwards; line-height: 1.75; }
+    .cta { display: flex; gap: .9rem; flex-wrap: wrap; opacity: 0; animation: fadeUp .6s .95s forwards; }
 
+    /* photo */
+    .hero-photo { display: flex; justify-content: center; opacity: 0; animation: fadeIn .9s .5s forwards; }
+    .photo-outer { position: relative; display: inline-block; }
+    .photo-glow { position: absolute; inset: -20px; border-radius: 50%; z-index: 0; background: radial-gradient(circle, rgba(99,102,241,.22) 0%, transparent 70%); animation: gpulse 3s ease-in-out infinite; }
+    .photo-ring { width: 300px; height: 300px; border-radius: 50%; padding: 4px; background: conic-gradient(from 0deg, var(--prim), var(--sec), var(--cyan), var(--prim)); animation: spin 8s linear infinite; position: relative; z-index: 1; }
+    .photo-bg { width: 100%; height: 100%; border-radius: 50%; background: var(--bg); overflow: hidden; }
+    .photo-bg img { width: 100%; height: 100%; object-fit: cover; object-position: top center; filter: grayscale(20%); transition: filter .4s; }
+    .photo-bg img:hover { filter: grayscale(0%); }
+    .loc-badge { position: absolute; bottom: -6px; left: 50%; transform: translateX(-50%); background: rgba(13,17,23,.92); border: 1px solid var(--border); backdrop-filter: blur(12px); padding: .32rem .85rem; border-radius: 2rem; font-size: .76rem; color: var(--muted); white-space: nowrap; z-index: 10; }
 
-<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navegación" data-md-level="0">
-  <label class="md-nav__title" for="__drawer">
-    <a href="." title="FelixNRC" class="md-nav__button md-logo" aria-label="FelixNRC" data-md-component="logo">
-      
-  
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.1.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M400 32c26.5 0 48 21.49 48 48v256c0 26.5-21.5 48-48 48H266.7l10.6 32H352c17.7 0 32 14.3 32 32s-14.3 32-32 32H96c-17.67 0-32-14.3-32-32s14.33-32 32-32h74.7l10.6-32H48c-26.51 0-48-21.5-48-48V80c0-26.51 21.49-48 48-48h352zM64 96v224h320V96H64zm528-64c26.5 0 48 21.49 48 48v352c0 26.5-21.5 48-48 48h-64c-26.5 0-48-21.5-48-48V80c0-26.51 21.5-48 48-48h64zm-48 64c-8.8 0-16 7.2-16 16s7.2 16 16 16h32c8.8 0 16-7.2 16-16s-7.2-16-16-16h-32zm0 96h32c8.8 0 16-7.2 16-16s-7.2-16-16-16h-32c-8.8 0-16 7.2-16 16s7.2 16 16 16zm16 208c17.7 0 32-14.3 32-32s-14.3-32-32-32-32 14.3-32 32 14.3 32 32 32z"/></svg>
+    /* ========= ABOUT ========= */
+    #about { padding: 6rem 0; }
+    .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: start; }
 
-    </a>
-    FelixNRC
-  </label>
-  
-  <ul class="md-nav__list" data-md-scrollfix>
-    
-      
-      
-      
+    .terminal { background: var(--bg1); border: 1px solid var(--border); border-radius: .75rem; overflow: hidden; font-family: 'JetBrains Mono', monospace; }
+    .tbar { background: rgba(255,255,255,.04); padding: .6rem 1rem; display: flex; align-items: center; gap: .4rem; border-bottom: 1px solid var(--border); }
+    .dot { width: 11px; height: 11px; border-radius: 50%; }
+    .dr { background:#ff5f57; } .dy { background:#febc2e; } .dg { background:#28c840; }
+    .tfname { margin-left: .4rem; color: var(--subtle); font-size: .76rem; }
+    .tbody { padding: 1.3rem; font-size: .8rem; line-height: 1.95; }
+    .tl { display: flex; gap: .7rem; }
+    .tp { color: var(--acc); user-select: none; }
+    .tk { color: var(--prim); min-width: 8rem; }
+    .tv { color: var(--text); }
+    .tv a { color: var(--cyan); text-decoration: none; }
+    .tv a:hover { text-decoration: underline; }
+    .tc { color: var(--subtle); }
 
-  
-  
-    
-  
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          Bienvenidos a mi web
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="." class="md-nav__link md-nav__link--active">
-        Bienvenidos a mi web
-      </a>
-      
-        
+    .about-right { display: flex; flex-direction: column; gap: 1.4rem; }
+    .about-right p { color: var(--muted); line-height: 1.8; font-size: .96rem; }
+    .stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: .85rem; }
+    .stat-card { background: var(--glass); border: 1px solid var(--border); border-radius: .5rem; padding: .95rem; }
+    .snum { font-size: 1.65rem; font-weight: 700; background: linear-gradient(135deg, var(--prim), var(--sec)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .slbl { font-size: .74rem; color: var(--subtle); margin-top: .15rem; }
 
-<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Tabla de contenidos
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#video-de-entrevista-con-fabian" class="md-nav__link">
-    Video de entrevista con Fabian.
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
-    </li>
-  
+    /* ========= EXPERIENCE ========= */
+    #experience { padding: 6rem 0; }
+    .timeline { position: relative; padding-left: 2.2rem; }
+    .timeline::before { content: ''; position: absolute; left: 4px; top: .4rem; bottom: 0; width: 2px; background: linear-gradient(to bottom, var(--prim), var(--sec), rgba(168,85,247,.1)); border-radius: 1px; }
+    .tl-item { position: relative; padding-bottom: 2.4rem; }
+    .tl-item:last-child { padding-bottom: 0; }
+    .tl-dot { position: absolute; left: -2.2rem; top: .42rem; width: 12px; height: 12px; border-radius: 50%; background: var(--primd); border: 2.5px solid var(--bg); z-index: 2; transform: translateX(-.3px); }
+    .tl-item.current .tl-dot { background: var(--acc); box-shadow: 0 0 0 3px rgba(52,211,153,.15); animation: dotpulse 2.5s ease-in-out infinite; }
+    @keyframes dotpulse { 0%,100% { box-shadow: 0 0 0 3px rgba(52,211,153,.15); } 50% { box-shadow: 0 0 0 7px rgba(52,211,153,0); } }
+    .tl-card { background: var(--glass); border: 1px solid var(--border); border-radius: .7rem; padding: 1.4rem 1.5rem; transition: border-color .3s, transform .3s; }
+    .tl-item.current .tl-card { border-color: rgba(52,211,153,.2); }
+    .tl-card:hover { border-color: rgba(99,102,241,.3); transform: translateX(3px); }
+    .tl-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem; margin-bottom: .35rem; flex-wrap: wrap; }
+    .tl-role { font-weight: 700; font-size: 1rem; color: var(--text); }
+    .tl-company { font-weight: 600; font-size: .9rem; color: var(--prim); margin-top: .1rem; }
+    .tl-date { font-family: 'JetBrains Mono', monospace; font-size: .74rem; color: var(--subtle); background: var(--glass); border: 1px solid var(--border); padding: .2rem .65rem; border-radius: .35rem; white-space: nowrap; }
+    .tl-location { font-size: .8rem; color: var(--subtle); margin-bottom: .8rem; }
+    .tl-points { list-style: none; display: flex; flex-direction: column; gap: .35rem; }
+    .tl-points li { font-size: .87rem; color: var(--muted); display: flex; gap: .6rem; line-height: 1.55; }
+    .tl-points li::before { content: '▸'; color: var(--prim); font-size: .8rem; margin-top: .05rem; flex-shrink: 0; }
+    .tl-tags { display: flex; flex-wrap: wrap; gap: .4rem; margin-top: 1rem; }
+    .tl-tag { font-family: 'JetBrains Mono', monospace; font-size: .72rem; color: var(--subtle); background: rgba(255,255,255,.04); border: 1px solid var(--border); padding: .15rem .5rem; border-radius: .3rem; }
 
-    
+    /* ========= SKILLS ========= */
+    #skills { padding: 6rem 0; }
+    .skills-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.15rem; }
+    .skill-cat { background: var(--glass); border: 1px solid var(--border); border-radius: .7rem; padding: 1.3rem; transition: border-color .3s, transform .3s; }
+    .skill-cat:hover { border-color: rgba(99,102,241,.4); transform: translateY(-4px); }
+    .sc-icon { font-size: 1.75rem; margin-bottom: .55rem; }
+    .sc-title { font-weight: 600; font-size: .87rem; margin-bottom: .8rem; }
+    .tags { display: flex; flex-wrap: wrap; gap: .4rem; }
+    .tag { background: rgba(99,102,241,.1); border: 1px solid rgba(99,102,241,.2); color: var(--prim); padding: .2rem .65rem; border-radius: 2rem; font-size: .75rem; font-family: 'JetBrains Mono', monospace; transition: all .2s; cursor: default; }
+    .tag:hover { background: rgba(99,102,241,.2); border-color: var(--prim); }
+    .tag.learn { background: rgba(168,85,247,.1); border-color: rgba(168,85,247,.2); color: var(--sec); }
+    .tag.learn:hover { background: rgba(168,85,247,.2); border-color: var(--sec); }
+
+    /* ========= CERTS ========= */
+    #certs { padding: 3rem 0 6rem; }
+    .certs-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem; }
+    .cert-card { background: var(--glass); border: 1px solid var(--border); border-radius: .7rem; padding: 1.2rem 1.4rem; display: flex; align-items: flex-start; gap: 1rem; transition: border-color .3s, transform .3s; }
+    .cert-card:hover { border-color: rgba(99,102,241,.35); transform: translateY(-3px); }
+    .cert-icon { font-size: 1.6rem; flex-shrink: 0; }
+    .cert-name { font-weight: 600; font-size: .86rem; margin-bottom: .2rem; }
+    .cert-org { font-size: .77rem; color: var(--subtle); font-family: 'JetBrains Mono', monospace; }
+
+    /* ========= PROJECTS ========= */
+    #projects { padding: 6rem 0; }
+    .proj-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.2rem; }
+    .proj-card { background: var(--glass); border: 1px solid var(--border); border-radius: .7rem; padding: 1.5rem; display: flex; flex-direction: column; gap: .85rem; text-decoration: none; color: inherit; position: relative; overflow: hidden; transition: border-color .3s, transform .3s, box-shadow .3s; }
+    .proj-card::before { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, rgba(99,102,241,.05), rgba(168,85,247,.05)); opacity: 0; transition: opacity .3s; }
+    .proj-card:hover { border-color: rgba(99,102,241,.4); transform: translateY(-5px); box-shadow: 0 18px 36px rgba(0,0,0,.3); }
+    .proj-card:hover::before { opacity: 1; }
+    .proj-head { display: flex; justify-content: space-between; align-items: flex-start; }
+    .picon { font-size: 1.8rem; }
+    .gh-btn { width: 29px; height: 29px; display: flex; align-items: center; justify-content: center; border-radius: .35rem; background: var(--glass); border: 1px solid var(--border); color: var(--muted); transition: all .2s; }
+    .gh-btn:hover { color: var(--text); border-color: var(--prim); background: rgba(99,102,241,.1); }
+    .pname { font-size: .98rem; font-weight: 600; }
+    .pdesc { color: var(--muted); font-size: .86rem; line-height: 1.7; flex: 1; }
+    .ptech { display: flex; flex-wrap: wrap; gap: .38rem; }
+    .ptag { font-family: 'JetBrains Mono', monospace; font-size: .71rem; color: var(--subtle); background: rgba(255,255,255,.04); border: 1px solid var(--border); padding: .16rem .5rem; border-radius: .3rem; }
+
+    /* ========= CONTACT ========= */
+    #contact { padding: 6rem 0 8rem; }
+    .contact-wrap { display: flex; flex-direction: column; align-items: center; }
+    .contact-card { background: var(--glass); border: 1px solid var(--border); border-radius: 1rem; padding: 3rem; text-align: center; max-width: 560px; width: 100%; backdrop-filter: blur(20px); }
+    .contact-card p { color: var(--muted); margin-bottom: 2rem; line-height: 1.75; }
+    .socials { display: flex; justify-content: center; gap: .85rem; flex-wrap: wrap; }
+    .soc { display: flex; align-items: center; gap: .4rem; padding: .68rem 1.3rem; border-radius: .5rem; background: var(--glass); border: 1px solid var(--border); color: var(--muted); text-decoration: none; font-size: .87rem; font-weight: 500; transition: all .2s; }
+    .soc:hover { color: var(--text); border-color: var(--prim); background: rgba(99,102,241,.1); transform: translateY(-2px); }
+
+    /* footer */
+    footer { border-top: 1px solid var(--border); padding: 1.7rem; text-align: center; color: var(--subtle); font-size: .8rem; font-family: 'JetBrains Mono', monospace; position: relative; z-index: 1; }
+    footer a { color: var(--prim); text-decoration: none; }
+
+    /* mobile */
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .hamburger { display: flex; }
+      .hero-in { grid-template-columns: 1fr; text-align: center; }
+      .hero-photo { order: -1; }
+      .photo-ring { width: 195px; height: 195px; }
+      .hero-p { margin: 0 auto 1.8rem; }
+      .cta { justify-content: center; }
+      .about-grid { grid-template-columns: 1fr; }
+      .contact-card { padding: 2rem 1.5rem; }
+      nav, .container { padding-left: 1.25rem; padding-right: 1.25rem; }
+      .tl-head { flex-direction: column; gap: .4rem; }
+    }
+  </style>
+</head>
+<body>
+<div class="mesh"></div>
+
+<!-- NAV -->
+<nav id="nav">
+  <div class="nav-logo">felixnrc<span>.ar</span></div>
+  <ul class="nav-links">
+    <li><a href="#about">Sobre mí</a></li>
+    <li><a href="#experience">Experiencia</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#projects">Proyectos</a></li>
+    <li><a href="#contact">Contacto</a></li>
   </ul>
+  <div class="hamburger" id="hbg" onclick="toggleMenu()"><span></span><span></span><span></span></div>
 </nav>
-                  </div>
-                </div>
-              </div>
-            
-            
-              
-              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
-                <div class="md-sidebar__scrollwrap">
-                  <div class="md-sidebar__inner">
-                    
+<div class="mob-menu" id="mobMenu">
+  <a href="#about"      onclick="closeMenu()">Sobre mí</a>
+  <a href="#experience" onclick="closeMenu()">Experiencia</a>
+  <a href="#skills"     onclick="closeMenu()">Skills</a>
+  <a href="#projects"   onclick="closeMenu()">Proyectos</a>
+  <a href="#contact"    onclick="closeMenu()">Contacto</a>
+</div>
 
-<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Tabla de contenidos
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#video-de-entrevista-con-fabian" class="md-nav__link">
-    Video de entrevista con Fabian.
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-                  </div>
-                </div>
-              </div>
-            
-          
-          <div class="md-content" data-md-component="content">
-            <article class="md-content__inner md-typeset">
-              
-                
-
-
-<h1 id="bienvenidos-a-mi-web">Bienvenidos a mi web</h1>
-<p><img alt="felixnrc" src="https://avatars.githubusercontent.com/u/42502767?v=4" /></p>
-<p>Hola, mi nombre es Félix. He creado esta web para mis anotaciones
-sobre temas de mi interés como:</p>
-<ul>
-<li><a href="https://grafana.com/">Grafana</a></li>
-<li><a href="https://prometheus.io/">Prometheus</a></li>
-<li><a href="https://www.docker.com/get-started/">Docker</a></li>
-<li><a href="https://www.python.org/">Python</a></li>
-<li><a href="https://www.vmware.com/ar.html">VMWare</a></li>
-<li><a href="https://mikrotik.com/">Mikrotik</a></li>
-<li><a href="https://www.ui.com/">Ubiquiti Networks</a></li>
-<li><a href="https://ubuntu.com/">Ubuntu</a></li>
-<li><a href="https://www.raspberrypi.org/">Raspberry pi</a></li>
-<li><a href="https://kubernetes.io/es/">Kubernetes</a></li>
-</ul>
-<p>Entre algunas cosas más.</p>
-<h2 id="video-de-entrevista-con-fabian">Video de entrevista con Fabian.</h2>
-<p><a href="https://www.youtube.com/watch?v=OMeX2No6o4w"><img alt="Video de entrevista" src="https://i9.ytimg.com/vi/OMeX2No6o4w/mq3.jpg?sqp=CJSpu5QG&amp;rs=AOn4CLDPmFg8cKG8I9CTikT4JTEj4s7ZNA" /></a></p>
-
-              
-            </article>
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-in">
+    <div>
+      <div class="badge"><span class="dot-live"></span> Actualmente en Cooperativa CALF</div>
+      <h1>Felix Natanael<br><span class="grad">Rojas Carballo</span></h1>
+      <div class="tw-wrap"><span id="typed"></span><span class="cursor">_</span></div>
+      <p class="hero-p">SysAdmin Sr. con +5 años en infraestructura crítica 24/7. Experiencia en Linux, Docker, virtualización y monitoreo en entornos productivos de alta disponibilidad. Orientado a SRE.</p>
+      <div class="cta">
+        <a href="#experience" class="btn btn-p">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg>
+          Ver Experiencia
+        </a>
+        <a href="#contact" class="btn btn-o">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,12 2,6"/></svg>
+          Contactar
+        </a>
+      </div>
+    </div>
+    <div class="hero-photo">
+      <div class="photo-outer">
+        <div class="photo-glow"></div>
+        <div class="photo-ring">
+          <div class="photo-bg">
+            <!-- Save your professional photo as profile.jpg in the repo root -->
+            <img src="profile.jpg"
+                 onerror="this.src='https://avatars.githubusercontent.com/u/42502767?v=4'"
+                 alt="Felix Natanael Rojas Carballo">
           </div>
         </div>
-        
-          <a href="#" class="md-top md-icon" data-md-component="top" data-md-state="hidden">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"/></svg>
-            Volver al principio
-          </a>
-        
-      </main>
-      
-        <footer class="md-footer">
-  
-  <div class="md-footer-meta md-typeset">
-    <div class="md-footer-meta__inner md-grid">
-      <div class="md-copyright">
-  
-    <div class="md-copyright__highlight">
-      Copyright &copy; 2021 - 2022 Felix Rojas
-    </div>
-  
-  
-    Made with
-    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
-      Material for MkDocs
-    </a>
-  
-</div>
-      
-        <div class="md-social">
-  
-    
-    
-      
-      
-    
-    <a href="https://github.com/felixnrc" target="_blank" rel="noopener" title="github.com" class="md-social__link">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.1.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
-    </a>
-  
-    
-    
-      
-      
-    
-    <a href="https://www.linkedin.com/in/felixnrc/" target="_blank" rel="noopener" title="www.linkedin.com" class="md-social__link">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.1.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"/></svg>
-    </a>
-  
-</div>
-      
+        <div class="loc-badge">📍 Neuquén Capital, Argentina</div>
+      </div>
     </div>
   </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="container">
+    <div class="lbl reveal">whoami</div>
+    <h2 class="stitle reveal">Sobre Mí</h2>
+    <div class="about-grid">
+      <div class="terminal reveal">
+        <div class="tbar">
+          <div class="dot dr"></div><div class="dot dy"></div><div class="dot dg"></div>
+          <span class="tfname">~ about.sh</span>
+        </div>
+        <div class="tbody">
+          <div class="tl"><span class="tp">$</span><span class="tc"># Identificación</span></div>
+          <div class="tl"><span class="tp">→</span><span class="tk">nombre</span><span class="tv">Felix Natanael Rojas Carballo</span></div>
+          <div class="tl"><span class="tp">→</span><span class="tk">rol</span><span class="tv">SysAdmin Sr. | Orientado a SRE</span></div>
+          <div class="tl"><span class="tp">→</span><span class="tk">ubicación</span><span class="tv">Neuquén Capital, Argentina 🇦🇷</span></div>
+          <div class="tl"><span class="tp">→</span><span class="tk">empresa</span><span class="tv">Cooperativa CALF (2021→hoy)</span></div>
+          <div class="tl">&nbsp;</div>
+          <div class="tl"><span class="tp">$</span><span class="tc"># Stack core</span></div>
+          <div class="tl"><span class="tp">→</span><span class="tk">os</span><span class="tv">Linux (prod) · Windows Server</span></div>
+          <div class="tl"><span class="tp">→</span><span class="tk">containers</span><span class="tv">Docker · Kubernetes</span></div>
+          <div class="tl"><span class="tp">→</span><span class="tk">virt</span><span class="tv">VMware · Proxmox</span></div>
+          <div class="tl"><span class="tp">→</span><span class="tk">observ</span><span class="tv">Grafana · Prometheus</span></div>
+          <div class="tl"><span class="tp">→</span><span class="tk">redes</span><span class="tv">Mikrotik · Ubiquiti · VPN</span></div>
+          <div class="tl">&nbsp;</div>
+          <div class="tl"><span class="tp">$</span><span class="tc"># Links</span></div>
+          <div class="tl"><span class="tp">→</span><span class="tk">github</span><span class="tv"><a href="https://github.com/felixnrc" target="_blank">@felixnrc</a></span></div>
+          <div class="tl"><span class="tp">→</span><span class="tk">linkedin</span><span class="tv"><a href="https://linkedin.com/in/felixnrc" target="_blank">in/felixnrc</a></span></div>
+          <div class="tl"><span class="tp">→</span><span class="tk">mail</span><span class="tv"><a href="mailto:felixnrc@gmail.com">felixnrc@gmail.com</a></span></div>
+        </div>
+      </div>
+      <div class="about-right">
+        <p>¿Buscás un SysAdmin que no solo apague incendios, sino que los prevenga? Administro infraestructura IT crítica con más de 5 años de experiencia en entornos 24/7 de alta disponibilidad — específicamente en organizaciones de servicios públicos y comercio mayorista donde el tiempo de inactividad no es una opción.</p>
+        <p>Mi perfil evoluciona hacia SRE (Site Reliability Engineering), con foco en automatización, observabilidad y mejora continua. Implementé monitoreo con Grafana + Prometheus en infraestructura crítica, estandaricé procedimientos de soporte y participé en la resolución de incidentes de alto impacto.</p>
+        <div class="stat-grid">
+          <div class="stat-card"><div class="snum">5+</div><div class="slbl">Años en entornos 24/7</div></div>
+          <div class="stat-card"><div class="snum">300K</div><div class="slbl">Usuarios en producción</div></div>
+          <div class="stat-card"><div class="snum">5</div><div class="slbl">Empresas · 2 países</div></div>
+          <div class="stat-card"><div class="snum">SRE</div><div class="slbl">Orientación profesional</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="container">
+    <div class="lbl reveal">career_log</div>
+    <h2 class="stitle reveal">Experiencia</h2>
+    <p class="sdesc reveal">Trayectoria profesional desde Venezuela hasta Argentina, con foco en infraestructura crítica y administración de sistemas.</p>
+    <div class="timeline">
+
+      <div class="tl-item current reveal">
+        <div class="tl-dot"></div>
+        <div class="tl-card">
+          <div class="tl-head">
+            <div>
+              <div class="tl-role">Administrador de Sistemas | SysAdmin Sr.</div>
+              <div class="tl-company">Cooperativa CALF</div>
+            </div>
+            <span class="tl-date">Sep 2021 — Presente</span>
+          </div>
+          <div class="tl-location">📍 Neuquén, Argentina · Cooperativa Provincial de Servicios Públicos y Comunitarios</div>
+          <ul class="tl-points">
+            <li>Infraestructura IT crítica para cooperativa eléctrica con 300.000+ usuarios, garantizando alta disponibilidad 24/7.</li>
+            <li>Administración de servidores Linux y Windows en entornos de producción con alta disponibilidad.</li>
+            <li>Implementación y gestión de contenedores Docker para servicios internos.</li>
+            <li>Automatización de tareas operativas mediante scripting en Bash y Python.</li>
+            <li>Monitoreo proactivo con Grafana y Prometheus sobre datos reales de producción.</li>
+            <li>Configuración y mantenimiento de equipos de red: switches, routers, firewalls.</li>
+            <li>Gestión de backups y planes de recuperación ante desastres.</li>
+            <li><strong style="color:var(--acc)">Logro:</strong> Implementé stack Grafana + Prometheus mejorando detección temprana de incidentes en infraestructura crítica.</li>
+          </ul>
+          <div class="tl-tags">
+            <span class="tl-tag">Linux</span><span class="tl-tag">Docker</span><span class="tl-tag">Grafana</span>
+            <span class="tl-tag">Prometheus</span><span class="tl-tag">Bash</span><span class="tl-tag">Python</span><span class="tl-tag">Networking</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="tl-item reveal">
+        <div class="tl-dot"></div>
+        <div class="tl-card">
+          <div class="tl-head">
+            <div>
+              <div class="tl-role">Auditor Interno de TI</div>
+              <div class="tl-company">Corralón Mayorista SRL</div>
+            </div>
+            <span class="tl-date">Nov 2019 — Sep 2021</span>
+          </div>
+          <div class="tl-location">📍 Neuquén, Argentina · Comercio Mayorista</div>
+          <ul class="tl-points">
+            <li>Administración de servidores Windows y Linux en entornos on-premise.</li>
+            <li>Gestión de redes LAN/WAN y servidores de CCTV IP.</li>
+            <li>Auditoría de seguridad informática y gestión de accesos.</li>
+            <li>Administración del sistema de gestión ERP corporativo.</li>
+            <li><strong style="color:var(--acc)">Logro:</strong> Detecté y corregí vulnerabilidades críticas en infraestructura de red durante auditorías internas.</li>
+          </ul>
+          <div class="tl-tags">
+            <span class="tl-tag">Linux</span><span class="tl-tag">Windows Server</span><span class="tl-tag">LAN/WAN</span>
+            <span class="tl-tag">CCTV</span><span class="tl-tag">ERP</span><span class="tl-tag">Seguridad</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="tl-item reveal">
+        <div class="tl-dot"></div>
+        <div class="tl-card">
+          <div class="tl-head">
+            <div>
+              <div class="tl-role">Técnico de Soporte de Aplicaciones</div>
+              <div class="tl-company">Puente//Web S.A.</div>
+            </div>
+            <span class="tl-date">Feb 2018 — Nov 2019</span>
+          </div>
+          <div class="tl-location">📍 Neuquén, Argentina · Software de Gestión Comercial</div>
+          <ul class="tl-points">
+            <li>HelpDesk y soporte funcional sobre ERP de gestión comercial a más de 300 usuarios.</li>
+            <li>Administración de servidores Windows y Linux en entornos productivos.</li>
+            <li>Mantenimiento y administración de bases de datos Microsoft SQL Server.</li>
+            <li>Desarrollo de herramientas internas con Rad Studio (Delphi).</li>
+            <li><strong style="color:var(--acc)">Logro:</strong> Optimicé consultas en SQL Server reduciendo tiempos de respuesta en entornos de producción.</li>
+          </ul>
+          <div class="tl-tags">
+            <span class="tl-tag">SQL Server</span><span class="tl-tag">Linux</span><span class="tl-tag">Windows Server</span>
+            <span class="tl-tag">ERP</span><span class="tl-tag">Delphi</span><span class="tl-tag">HelpDesk</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="tl-item reveal">
+        <div class="tl-dot"></div>
+        <div class="tl-card">
+          <div class="tl-head">
+            <div>
+              <div class="tl-role">Consultor Senior IT</div>
+              <div class="tl-company">Indexa IT Solutions, C.A.</div>
+            </div>
+            <span class="tl-date">Abr 2017 — Nov 2017</span>
+          </div>
+          <div class="tl-location">📍 Valencia, Carabobo, Venezuela</div>
+          <ul class="tl-points">
+            <li>Administración de infraestructura tecnológica: redes y servidores.</li>
+            <li>HelpDesk a más de 100 usuarios.</li>
+            <li>Asesoramiento IT a clientes.</li>
+          </ul>
+          <div class="tl-tags">
+            <span class="tl-tag">Infraestructura</span><span class="tl-tag">Redes</span><span class="tl-tag">Servidores</span><span class="tl-tag">HelpDesk</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="tl-item reveal">
+        <div class="tl-dot"></div>
+        <div class="tl-card">
+          <div class="tl-head">
+            <div>
+              <div class="tl-role">Analista de Sistemas Senior</div>
+              <div class="tl-company">Motores Camoruco C.A.</div>
+            </div>
+            <span class="tl-date">Oct 2016 — Abr 2017</span>
+          </div>
+          <div class="tl-location">📍 Carabobo, Venezuela</div>
+          <ul class="tl-points">
+            <li>Administración de servidores de virtualización bajo Linux Enterprise e IBM AS/400.</li>
+            <li>Soporte a más de 30 usuarios en software y hardware.</li>
+            <li>Administración de servidores y NVR CCTV IP.</li>
+            <li>Administración de redes y VPN entre sucursales.</li>
+          </ul>
+          <div class="tl-tags">
+            <span class="tl-tag">Linux Enterprise</span><span class="tl-tag">IBM AS/400</span>
+            <span class="tl-tag">VPN</span><span class="tl-tag">CCTV</span><span class="tl-tag">Virtualización</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="container">
+    <div class="lbl reveal">tech_stack</div>
+    <h2 class="stitle reveal">Habilidades Técnicas</h2>
+    <p class="sdesc reveal">Tecnologías con las que trabajo en producción y las que estoy incorporando.</p>
+    <div class="skills-grid">
+      <div class="skill-cat reveal">
+        <div class="sc-icon">🐧</div>
+        <div class="sc-title">Sistemas Operativos</div>
+        <div class="tags">
+          <span class="tag">Linux</span><span class="tag">Ubuntu</span><span class="tag">Debian</span>
+          <span class="tag">RHEL</span><span class="tag">Windows Server</span>
+        </div>
+      </div>
+      <div class="skill-cat reveal">
+        <div class="sc-icon">🖥️</div>
+        <div class="sc-title">Virtualización</div>
+        <div class="tags">
+          <span class="tag">VMware</span><span class="tag">Proxmox</span><span class="tag">IBM AS/400</span>
+        </div>
+      </div>
+      <div class="skill-cat reveal">
+        <div class="sc-icon">🌐</div>
+        <div class="sc-title">Redes & Seguridad</div>
+        <div class="tags">
+          <span class="tag">Mikrotik</span><span class="tag">RouterOS</span><span class="tag">Ubiquiti</span>
+          <span class="tag">VPN</span><span class="tag">Firewalls</span><span class="tag">LAN/WAN</span>
+        </div>
+      </div>
+      <div class="skill-cat reveal">
+        <div class="sc-icon">🐳</div>
+        <div class="sc-title">Contenedores & Orquestación</div>
+        <div class="tags">
+          <span class="tag">Docker</span><span class="tag">Kubernetes</span><span class="tag">Raspberry Pi</span>
+        </div>
+      </div>
+      <div class="skill-cat reveal">
+        <div class="sc-icon">📊</div>
+        <div class="sc-title">Monitoreo & Observabilidad</div>
+        <div class="tags">
+          <span class="tag">Prometheus</span><span class="tag">Grafana</span>
+        </div>
+      </div>
+      <div class="skill-cat reveal">
+        <div class="sc-icon">⚙️</div>
+        <div class="sc-title">Scripting & Bases de Datos</div>
+        <div class="tags">
+          <span class="tag">Bash</span><span class="tag">Python</span><span class="tag">PowerShell</span>
+          <span class="tag">SQL Server</span><span class="tag">MariaDB</span>
+        </div>
+      </div>
+      <div class="skill-cat reveal" style="grid-column: 1 / -1;">
+        <div class="sc-icon">🚀</div>
+        <div class="sc-title">Aprendiendo</div>
+        <div class="tags">
+          <span class="tag learn">JavaScript</span><span class="tag learn">Vue.js</span>
+          <span class="tag learn">Nuxt.js</span><span class="tag learn">TailwindCSS</span>
+          <span class="tag learn">Flask</span><span class="tag learn">Git avanzado</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CERTS -->
+<section id="certs">
+  <div class="container">
+    <div class="lbl reveal">certifications</div>
+    <h2 class="stitle reveal">Certificaciones</h2>
+    <div class="certs-grid">
+      <div class="cert-card reveal">
+        <div class="cert-icon">🛡️</div>
+        <div><div class="cert-name">CyberOps Associate</div><div class="cert-org">Cisco</div></div>
+      </div>
+      <div class="cert-card reveal">
+        <div class="cert-icon">🔀</div>
+        <div><div class="cert-name">Curso Profesional de Git y GitHub</div><div class="cert-org">Platzi</div></div>
+      </div>
+      <div class="cert-card reveal">
+        <div class="cert-icon">⚡</div>
+        <div><div class="cert-name">Arquitectura de Alta Concurrencia</div><div class="cert-org">Platzi</div></div>
+      </div>
+      <div class="cert-card reveal">
+        <div class="cert-icon">💻</div>
+        <div><div class="cert-name">Terminal y Línea de Comandos</div><div class="cert-org">Platzi</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="container">
+    <div class="lbl reveal">./projects</div>
+    <h2 class="stitle reveal">Proyectos Open Source</h2>
+    <p class="sdesc reveal">Proyectos que desarrollé y compartí en GitHub.</p>
+    <div class="proj-grid">
+
+      <a href="https://github.com/felixnrc/Docker-Raspberry-PI-Monitoring" target="_blank" rel="noopener" class="proj-card reveal">
+        <div class="proj-head">
+          <div class="picon">📊</div>
+          <div class="gh-btn"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.44 9.8 8.21 11.39.6.11.79-.26.79-.58v-2.23c-3.34.73-4.03-1.42-4.03-1.42-.55-1.39-1.34-1.76-1.34-1.76-1.09-.74.08-.73.08-.73 1.2.08 1.84 1.24 1.84 1.24 1.07 1.83 2.81 1.3 3.49 1 .11-.78.42-1.31.76-1.61-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.12-.3-.54-1.52.12-3.18 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 0 1 3-.4c1.02 0 2.05.14 3 .4 2.29-1.55 3.3-1.23 3.3-1.23.66 1.66.24 2.88.12 3.18.77.84 1.24 1.91 1.24 3.22 0 4.61-2.81 5.63-5.48 5.92.43.37.82 1.1.82 2.22v3.29c0 .32.19.69.8.58C20.56 21.8 24 17.3 24 12 24 5.37 18.63 0 12 0z"/></svg></div>
+        </div>
+        <div class="pname">Docker Raspberry Pi Monitoring</div>
+        <div class="pdesc">Stack de monitoreo completo para Raspberry Pi con Docker Compose. Visualización de métricas del sistema en tiempo real con Prometheus y Grafana.</div>
+        <div class="ptech">
+          <span class="ptag">Docker</span><span class="ptag">Prometheus</span><span class="ptag">Grafana</span><span class="ptag">Raspberry Pi</span>
+        </div>
+      </a>
+
+      <a href="https://github.com/felixnrc/script-usuarios-ps-csv" target="_blank" rel="noopener" class="proj-card reveal">
+        <div class="proj-head">
+          <div class="picon">⚙️</div>
+          <div class="gh-btn"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.44 9.8 8.21 11.39.6.11.79-.26.79-.58v-2.23c-3.34.73-4.03-1.42-4.03-1.42-.55-1.39-1.34-1.76-1.34-1.76-1.09-.74.08-.73.08-.73 1.2.08 1.84 1.24 1.84 1.24 1.07 1.83 2.81 1.3 3.49 1 .11-.78.42-1.31.76-1.61-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.12-.3-.54-1.52.12-3.18 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 0 1 3-.4c1.02 0 2.05.14 3 .4 2.29-1.55 3.3-1.23 3.3-1.23.66 1.66.24 2.88.12 3.18.77.84 1.24 1.91 1.24 3.22 0 4.61-2.81 5.63-5.48 5.92.43.37.82 1.1.82 2.22v3.29c0 .32.19.69.8.58C20.56 21.8 24 17.3 24 12 24 5.37 18.63 0 12 0z"/></svg></div>
+        </div>
+        <div class="pname">Script Usuarios PowerShell + CSV</div>
+        <div class="pdesc">Automatización de creación masiva de usuarios en Active Directory usando PowerShell con importación desde CSV. Ideal para despliegues corporativos.</div>
+        <div class="ptech">
+          <span class="ptag">PowerShell</span><span class="ptag">Active Directory</span><span class="ptag">CSV</span>
+        </div>
+      </a>
+
+      <a href="https://github.com/felixnrc/felix_open_service" target="_blank" rel="noopener" class="proj-card reveal">
+        <div class="proj-head">
+          <div class="picon">🌐</div>
+          <div class="gh-btn"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.44 9.8 8.21 11.39.6.11.79-.26.79-.58v-2.23c-3.34.73-4.03-1.42-4.03-1.42-.55-1.39-1.34-1.76-1.34-1.76-1.09-.74.08-.73.08-.73 1.2.08 1.84 1.24 1.84 1.24 1.07 1.83 2.81 1.3 3.49 1 .11-.78.42-1.31.76-1.61-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.12-.3-.54-1.52.12-3.18 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 0 1 3-.4c1.02 0 2.05.14 3 .4 2.29-1.55 3.3-1.23 3.3-1.23.66 1.66.24 2.88.12 3.18.77.84 1.24 1.91 1.24 3.22 0 4.61-2.81 5.63-5.48 5.92.43.37.82 1.1.82 2.22v3.29c0 .32.19.69.8.58C20.56 21.8 24 17.3 24 12 24 5.37 18.63 0 12 0z"/></svg></div>
+        </div>
+        <div class="pname">Felix Open Service</div>
+        <div class="pdesc">Página de servicios y recursos abiertos. Proyecto personal de práctica de desarrollo web con HTML, CSS y JavaScript.</div>
+        <div class="ptech">
+          <span class="ptag">HTML</span><span class="ptag">CSS</span><span class="ptag">JavaScript</span>
+        </div>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="container">
+    <div class="contact-wrap">
+      <div class="lbl reveal" style="text-align:center">get_in_touch</div>
+      <h2 class="stitle reveal" style="text-align:center; margin-bottom:2rem">Hablemos</h2>
+      <div class="contact-card reveal">
+        <p>¿Tenés un proyecto interesante, querés hablar de infraestructura o simplemente conectar? No dudes en escribirme.</p>
+        <div class="socials">
+          <a href="https://github.com/felixnrc" target="_blank" rel="noopener" class="soc">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.44 9.8 8.21 11.39.6.11.79-.26.79-.58v-2.23c-3.34.73-4.03-1.42-4.03-1.42-.55-1.39-1.34-1.76-1.34-1.76-1.09-.74.08-.73.08-.73 1.2.08 1.84 1.24 1.84 1.24 1.07 1.83 2.81 1.3 3.49 1 .11-.78.42-1.31.76-1.61-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.12-.3-.54-1.52.12-3.18 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 0 1 3-.4c1.02 0 2.05.14 3 .4 2.29-1.55 3.3-1.23 3.3-1.23.66 1.66.24 2.88.12 3.18.77.84 1.24 1.91 1.24 3.22 0 4.61-2.81 5.63-5.48 5.92.43.37.82 1.1.82 2.22v3.29c0 .32.19.69.8.58C20.56 21.8 24 17.3 24 12 24 5.37 18.63 0 12 0z"/></svg>
+            GitHub
+          </a>
+          <a href="https://linkedin.com/in/felixnrc" target="_blank" rel="noopener" class="soc">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20.45 20.45h-3.55v-5.57c0-1.33-.03-3.04-1.85-3.04-1.85 0-2.14 1.44-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12zm1.78 13.02H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0z"/></svg>
+            LinkedIn
+          </a>
+          <a href="mailto:felixnrc@gmail.com" class="soc">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,12 2,6"/></svg>
+            Email
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>© 2025 <a href="https://github.com/felixnrc">Felix Natanael Rojas Carballo</a> · Neuquén, Patagonia 🇦🇷</p>
 </footer>
-      
-    </div>
-    <div class="md-dialog" data-md-component="dialog">
-      <div class="md-dialog__inner md-typeset"></div>
-    </div>
-    <script id="__config" type="application/json">{"base": ".", "features": ["navigation.instant", "navigation.tabs", "navigation.top", "content.tabs.link"], "search": "assets/javascripts/workers/search.2a1c317c.min.js", "translations": {"clipboard.copied": "Copiado al portapapeles", "clipboard.copy": "Copiar al portapapeles", "search.config.lang": "es", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "B\u00fasqueda", "search.result.more.one": "1 m\u00e1s en esta p\u00e1gina", "search.result.more.other": "# m\u00e1s en esta p\u00e1gina", "search.result.none": "No se encontraron documentos", "search.result.one": "1 documento encontrado", "search.result.other": "# documentos encontrados", "search.result.placeholder": "Teclee para comenzar b\u00fasqueda", "search.result.term.missing": "Falta", "select.version.title": "Seleccionar versi\u00f3n"}}</script>
-    
-    
-      <script src="assets/javascripts/bundle.a6c66575.min.js"></script>
-      
-    
-  </body>
+
+<script>
+  // Typewriter
+  const words = ['SysAdmin Sr.', 'Infrastructure Engineer', 'Docker · Linux · Grafana', 'Orientado a SRE', 'Automatización IT'];
+  let wi = 0, ci = 0, del = false;
+  function type() {
+    const el = document.getElementById('typed');
+    const w = words[wi];
+    if (!del) {
+      el.textContent = w.slice(0, ++ci);
+      if (ci === w.length) { del = true; setTimeout(type, 2400); return; }
+    } else {
+      el.textContent = w.slice(0, --ci);
+      if (ci === 0) { del = false; wi = (wi + 1) % words.length; }
+    }
+    setTimeout(type, del ? 48 : 88);
+  }
+  type();
+
+  // Reveal on scroll
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('vis'); });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.reveal').forEach((el, i) => {
+    el.style.transitionDelay = (i % 5) * 0.07 + 's';
+    obs.observe(el);
+  });
+
+  // Nav
+  window.addEventListener('scroll', () => {
+    document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 40);
+  });
+
+  // Mobile menu
+  function toggleMenu() {
+    document.getElementById('hbg').classList.toggle('open');
+    document.getElementById('mobMenu').classList.toggle('open');
+  }
+  function closeMenu() {
+    document.getElementById('hbg').classList.remove('open');
+    document.getElementById('mobMenu').classList.remove('open');
+  }
+</script>
+</body>
 </html>
