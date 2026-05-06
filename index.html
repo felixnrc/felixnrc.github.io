@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Felix Natanael Rojas Carballo — SysAdmin Sr. | Linux · Docker · Automatización · Infraestructura Crítica · +5 años en entornos 24/7">
+  <title>Felix Rojas Carballo — SysAdmin Sr.</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:      #060912;
+      --bg1:     #0d1117;
+      --glass:   rgba(255,255,255,0.05);
+      --border:  rgba(255,255,255,0.09);
+      --prim:    #818cf8;
+      --primd:   #4f46e5;
+      --sec:     #c084fc;
+      --acc:     #34d399;
+      --cyan:    #22d3ee;
+      --text:    #f1f5f9;
+      --muted:   #94a3b8;
+      --subtle:  #475569;
+    }
+
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; line-height: 1.6; overflow-x: hidden; }
+    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--primd); border-radius: 3px; }
+
+    /* mesh */
+    .mesh {
+      position: fixed; inset: 0; z-index: 0; pointer-events: none;
+      background:
+        radial-gradient(ellipse 70% 55% at 15%  8%, rgba(99,102,241,.15) 0%, transparent 65%),
+        radial-gradient(ellipse 55% 45% at 85% 92%, rgba(168,85,247,.12) 0%, transparent 60%),
+        radial-gradient(ellipse 45% 35% at 55% 50%, rgba(34,211,238,.06) 0%, transparent 60%);
+    }
+
+    section { position: relative; z-index: 1; }
+    .container { max-width: 1080px; margin: 0 auto; padding: 0 2rem; }
+
+    /* nav */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: .85rem 2rem;
+      backdrop-filter: blur(24px); background: rgba(6,9,18,.65);
+      border-bottom: 1px solid var(--border); transition: background .3s;
+    }
+    nav.scrolled { background: rgba(6,9,18,.96); }
+    .nav-logo { font-family: 'JetBrains Mono', monospace; font-weight: 600; color: var(--prim); font-size: .92rem; }
+    .nav-logo span { color: var(--subtle); }
+    .nav-links { display: flex; gap: 1.8rem; list-style: none; }
+    .nav-links a { color: var(--muted); text-decoration: none; font-size: .78rem; font-weight: 500; letter-spacing: .07em; text-transform: uppercase; transition: color .2s; }
+    .nav-links a:hover { color: var(--text); }
+    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; }
+    .hamburger span { display: block; width: 22px; height: 2px; background: var(--muted); border-radius: 2px; transition: all .3s; }
+    .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+    .mob-menu { display: none; position: fixed; top: 57px; left: 0; right: 0; z-index: 199; background: rgba(6,9,18,.97); border-bottom: 1px solid var(--border); padding: 1.5rem 2rem; backdrop-filter: blur(24px); }
+    .mob-menu.open { display: block; }
+    .mob-menu a { display: block; color: var(--muted); text-decoration: none; font-size: 1rem; padding: .75rem 0; border-bottom: 1px solid var(--border); }
+    .mob-menu a:last-child { border: none; }
+
+    /* buttons */
+    .btn { padding: .7rem 1.55rem; border-radius: .5rem; font-size: .87rem; font-weight: 600; text-decoration: none; cursor: pointer; transition: all .2s; display: inline-flex; align-items: center; gap: .45rem; border: none; }
+    .btn-p { background: linear-gradient(135deg, var(--primd), #7c3aed); color: #fff; }
+    .btn-p:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(99,102,241,.4); }
+    .btn-o { background: transparent; color: var(--text); border: 1px solid var(--border); }
+    .btn-o:hover { border-color: var(--prim); background: rgba(99,102,241,.1); transform: translateY(-2px); }
+
+    /* section labels */
+    .lbl { font-family: 'JetBrains Mono', monospace; font-size: .73rem; color: var(--acc); letter-spacing: .15em; text-transform: uppercase; margin-bottom: .55rem; }
+    .stitle { font-size: clamp(1.65rem, 2.7vw, 2.2rem); font-weight: 700; margin-bottom: .75rem; }
+    .sdesc { color: var(--muted); max-width: 520px; margin-bottom: 2.8rem; font-size: .97rem; }
+
+    /* animations */
+    @keyframes fadeUp { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
+    @keyframes fadeIn  { from { opacity:0; } to { opacity:1; } }
+    @keyframes spin    { to { transform: rotate(360deg); } }
+    @keyframes gpulse  { 0%,100% { transform:scale(1); opacity:1; } 50% { transform:scale(1.07); opacity:.6; } }
+    @keyframes blink   { 0%,100% { opacity:1; } 50% { opacity:0; } }
+
+    .reveal { opacity: 0; transform: translateY(26px); transition: opacity .65s ease, transform .65s ease; }
+    .reveal.vis { opacity: 1; transform: translateY(0); }
+
+    /* ========= HERO ========= */
+    #hero { min-height: 100vh; display: flex; align-items: center; padding: 6rem 2rem 4rem; }
+    .hero-in { max-width: 1080px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
+
+    .badge {
+      display: inline-flex; align-items: center; gap: .45rem;
+      background: rgba(52,211,153,.1); border: 1px solid rgba(52,211,153,.25);
+      color: var(--acc); font-size: .78rem; font-weight: 600; letter-spacing: .05em;
+      padding: .3rem .85rem; border-radius: 2rem; margin-bottom: .9rem;
+      opacity: 0; animation: fadeUp .6s .15s forwards;
+    }
+    .badge .dot-live { width: 7px; height: 7px; border-radius: 50%; background: var(--acc); animation: gpulse 2s ease-in-out infinite; }
+
+    h1 { font-size: clamp(2.4rem, 4.2vw, 3.6rem); font-weight: 800; line-height: 1.1; margin-bottom: .85rem; opacity: 0; animation: fadeUp .6s .35s forwards; }
+    h1 .grad { background: linear-gradient(135deg, var(--prim), var(--sec)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+
+    .tw-wrap { font-family: 'JetBrains Mono', monospace; font-size: 1rem; color: var(--muted); margin-bottom: 1.3rem; min-height: 1.5rem; opacity: 0; animation: fadeUp .6s .55s forwards; }
+    .cursor { animation: blink 1s step-end infinite; color: var(--prim); }
+    .hero-p { color: var(--muted); font-size: .97rem; max-width: 460px; margin-bottom: 1.8rem; opacity: 0; animation: fadeUp .6s .75s forwards; line-height: 1.75; }
+    .cta { display: flex; gap: .9rem; flex-wrap: wrap; opacity: 0; animation: fadeUp .6s .95s forwards; }
+
+    /* photo */
+    .hero-photo { display: flex; justify-content: center; opacity: 0; animation: fadeIn .9s .5s forwards; }
+    .photo-outer { position: relative; display: inline-block; }
+    .photo-glow { position: absolute; inset: -20px; border-radius: 50%; z-index: 0; background: radial-gradient(circle, rgba(99,102,241,.22) 0%, transparent 70%); animation: gpulse 3s ease-in-out infinite; }
+    .photo-ring { width: 300px; height: 300px; border-radius: 50%; padding: 4px; background: conic-gradient(from 0deg, var(--prim), var(--sec), var(--cyan), var(--prim)); animation: spin 8s linear infinite; position: relative; z-index: 1; }
+    .photo-bg { width: 100%; height: 100%; border-radius: 50%; background: var(--bg); overflow: hidden; }
+    .photo-bg img { width: 100%; height: 100%; object-fit: cover; object-position: top center; filter: grayscale(20%); transition: filter .4s; }
+    .photo-bg img:hover { filter: grayscale(0%); }
+    .loc-badge { position: absolute; bottom: -6px; left: 50%; transform: translateX(-50%); background: rgba(13,17,23,.92); border: 1px solid var(--border); backdrop-filter: blur(12px); padding: .32rem .85rem; border-radius: 2rem; font-size: .76rem; color: var(--muted); white-space: nowrap; z-index: 10; }
+
+    /* ========= ABOUT ========= */
+    #about { padding: 6rem 0; }
+    .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: start; }
+
+    .terminal { background: var(--bg1); border: 1px solid var(--border); border-radius: .75rem; overflow: hidden; font-family: 'JetBrains Mono', monospace; }
+    .tbar { background: rgba(255,255,255,.04); padding: .6rem 1rem; display: flex; align-items: center; gap: .4rem; border-bottom: 1px solid var(--border); }
+    .dot { width: 11px; height: 11px; border-radius: 50%; }
+    .dr { background:#ff5f57; } .dy { background:#febc2e; } .dg { background:#28c840; }
+    .tfname { margin-left: .4rem; color: var(--subtle); font-size: .76rem; }
+    .tbody { padding: 1.3rem; font-size: .8rem; line-height: 1.95; }
+    .tl { display: flex; gap: .7rem; }
+    .tp { color: var(--acc); user-select: none; }
+    .tk { color: var(--prim); min-width: 8rem; }
+    .tv { color: var(--text); }
+    .tv a { color: var(--cyan); text-decoration: none; }
+    .tv a:hover { text-decoration: underline; }
+    .tc { color: var(--subtle); }
+
+    .about-right { display: flex; flex-direction: column; gap: 1.4rem; }
+    .about-right p { color: var(--muted); line-height: 1.8; font-size: .96rem; }
+    .stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: .85rem; }
+    .stat-card { background: var(--glass); border: 1px solid var(--border); border-radius: .5rem; padding: .95rem; }
+    .snum { font-size: 1.65rem; font-weight: 700; background: linear-gradient(135deg, var(--prim), var(--sec)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .slbl { font-size: .74rem; color: var(--subtle); margin-top: .15rem; }
+
+    /* ========= EXPERIENCE ========= */
+    #experience { padding: 6rem 0; }
+    .timeline { position: relative; padding-left: 2.2rem; }
+    .timeline::before { content: ''; position: absolute; left: 4px; top: .4rem; bottom: 0; width: 2px; background: linear-gradient(to bottom, var(--prim), var(--sec), rgba(168,85,247,.1)); border-radius: 1px; }
+    .tl-item { position: relative; padding-bottom: 2.4rem; }
+    .tl-item:last-child { padding-bottom: 0; }
+    .tl-dot { position: absolute; left: -2.2rem; top: .42rem; width: 12px; height: 12px; border-radius: 50%; background: var(--primd); border: 2.5px solid var(--bg); z-index: 2; transform: translateX(-.3px); }
+    .tl-item.current .tl-dot { background: var(--acc); box-shadow: 0 0 0 3px rgba(52,211,153,.15); animation: dotpulse 2.5s ease-in-out infinite; }
+    @keyframes dotpulse { 0%,100% { box-shadow: 0 0 0 3px rgba(52,211,153,.15); } 50% { box-shadow: 0 0 0 7px rgba(52,211,153,0); } }
+    .tl-card { background: var(--glass); border: 1px solid var(--border); border-radius: .7rem; padding: 1.4rem 1.5rem; transition: border-color .3s, transform .3s; }
+    .tl-item.current .tl-card { border-color: rgba(52,211,153,.2); }
+    .tl-card:hover { border-color: rgba(99,102,241,.3); transform: translateX(3px); }
+    .tl-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem; margin-bottom: .35rem; flex-wrap: wrap; }
+    .tl-role { font-weight: 700; font-size: 1rem; color: var(--text); }
+    .tl-company { font-weight: 600; font-size: .9rem; color: var(--prim); margin-top: .1rem; }
+    .tl-date { font-family: 'JetBrains Mono', monospace; font-size: .74rem; color: var(--subtle); background: var(--glass); border: 1px solid var(--border); padding: .2rem .65rem; border-radius: .35rem; white-space: nowrap; }
+    .tl-location { font-size: .8rem; color: var(--subtle); margin-bottom: .8rem; }
+    .tl-points { list-style: none; display: flex; flex-direction: column; gap: .35rem; }
+    .tl-points li { font-size: .87rem; color: var(--muted); display: flex; gap: .6rem; line-height: 1.55; }
+    .tl-points li::before { content: '▸'; color: var(--prim); font-size: .8rem; margin-top: .05rem; flex-shrink: 0; }
+    .tl-tags { display: flex; flex-wrap: wrap; gap: .4rem; margin-top: 1rem; }
+    .tl-tag { font-family: 'JetBrains Mono', monospace; font-size: .72rem; color: var(--subtle); background: rgba(255,255,255,.04); border: 1px solid var(--border); padding: .15rem .5rem; border-radius: .3rem; }
+
+    /* ========= SKILLS ========= */
+    #skills { padding: 6rem 0; }
+    .skills-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.15rem; }
+    .skill-cat { background: var(--glass); border: 1px solid var(--border); border-radius: .7rem; padding: 1.3rem; transition: border-color .3s, transform .3s; }
+    .skill-cat:hover { border-color: rgba(99,102,241,.4); transform: translateY(-4px); }
+    .sc-icon { font-size: 1.75rem; margin-bottom: .55rem; }
+    .sc-title { font-weight: 600; font-size: .87rem; margin-bottom: .8rem; }
+    .tags { display: flex; flex-wrap: wrap; gap: .4rem; }
+    .tag { background: rgba(99,102,241,.1); border: 1px solid rgba(99,102,241,.2); color: var(--prim); padding: .2rem .65rem; border-radius: 2rem; font-size: .75rem; font-family: 'JetBrains Mono', monospace; transition: all .2s; cursor: default; }
+    .tag:hover { background: rgba(99,102,241,.2); border-color: var(--prim); }
+    .tag.learn { background: rgba(168,85,247,.1); border-color: rgba(168,85,247,.2); color: var(--sec); }
+    .tag.learn:hover { background: rgba(168,85,247,.2); border-color: var(--sec); }
+
+    /* ========= CERTS ========= */
+    #certs { padding: 3rem 0 6rem; }
+    .certs-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem; }
+    .cert-card { background: var(--glass); border: 1px solid var(--border); border-radius: .7rem; padding: 1.2rem 1.4rem; display: flex; align-items: flex-start; gap: 1rem; transition: border-color .3s, transform .3s; }
+    .cert-card:hover { border-color: rgba(99,102,241,.35); transform: translateY(-3px); }
+    .cert-icon { font-size: 1.6rem; flex-shrink: 0; }
+    .cert-name { font-weight: 600; font-size: .86rem; margin-bottom: .2rem; }
+    .cert-org { font-size: .77rem; color: var(--subtle); font-family: 'JetBrains Mono', monospace; }
+
+    /* ========= PROJECTS ========= */
+    #projects { padding: 6rem 0; }
+    .proj-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.2rem; }
+    .proj-card { background: var(--glass); border: 1px solid var(--border); border-radius: .7rem; padding: 1.5rem; display: flex; flex-direction: column; gap: .85rem; text-decoration: none; color: inherit; position: relative; overflow: hidden; transition: border-color .3s, transform .3s, box-shadow .3s; }
+    .proj-card::before { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, rgba(99,102,241,.05), rgba(168,85,247,.05)); opacity: 0; transition: opacity .3s; }
+    .proj-card:hover { border-color: rgba(99,102,241,.4); transform: translateY(-5px); box-shadow: 0 18px 36px rgba(0,0,0,.3); }
+    .proj-card:hover::before { opacity: 1; }
+    .proj-head { display: flex; justify-content: space-between; align-items: flex-start; }
+    .picon { font-size: 1.8rem; }
+    .gh-btn { width: 29px; height: 29px; display: flex; align-items: center; justify-content: center; border-radius: .35rem; background: var(--glass); border: 1px solid var(--border); color: var(--muted); transition: all .2s; }
+    .gh-btn:hover { color: var(--text); border-color: var(--prim); background: rgba(99,102,241,.1); }
+    .pname { font-size: .98rem; font-weight: 600; }
+    .pdesc { color: var(--muted); font-size: .86rem; line-height: 1.7; flex: 1; }
+    .ptech { display: flex; flex-wrap: wrap; gap: .38rem; }
+    .ptag { font-family: 'JetBrains Mono', monospace; font-size: .71rem; color: var(--subtle); background: rgba(255,255,255,.04); border: 1px solid var(--border); padding: .16rem .5rem; border-radius: .3rem; }
+
+    /* ========= CONTACT ========= */
+    #contact { padding: 6rem 0 8rem; }
+    .contact-wrap { display: flex; flex-direction: column; align-items: center; }
+    .contact-card { background: var(--glass); border: 1px solid var(--border); border-radius: 1rem; padding: 3rem; text-align: center; max-width: 560px; width: 100%; backdrop-filter: blur(20px); }
+    .contact-card p { color: var(--muted); margin-bottom: 2rem; line-height: 1.75; }
+    .socials { display: flex; justify-content: center; gap: .85rem; flex-wrap: wrap; }
+    .soc { display: flex; align-items: center; gap: .4rem; padding: .68rem 1.3rem; border-radius: .5rem; background: var(--glass); border: 1px solid var(--border); color: var(--muted); text-decoration: none; font-size: .87rem; font-weight: 500; transition: all .2s; }
+    .soc:hover { color: var(--text); border-color: var(--prim); background: rgba(99,102,241,.1); transform: translateY(-2px); }
+
+    /* footer */
+    footer { border-top: 1px solid var(--border); padding: 1.7rem; text-align: center; color: var(--subtle); font-size: .8rem; font-family: 'JetBrains Mono', monospace; position: relative; z-index: 1; }
+    footer a { color: var(--prim); text-decoration: none; }
+
+    /* mobile */
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .hamburger { display: flex; }
+      .hero-in { grid-template-columns: 1fr; text-align: center; }
+      .hero-photo { order: -1; }
+      .photo-ring { width: 195px; height: 195px; }
+      .hero-p { margin: 0 auto 1.8rem; }
+      .cta { justify-content: center; }
+      .about-grid { grid-template-columns: 1fr; }
+      .contact-card { padding: 2rem 1.5rem; }
+      nav, .container { padding-left: 1.25rem; padding-right: 1.25rem; }
+      .tl-head { flex-direction: column; gap: .4rem; }
+    }
+  </style>
+</head>
+<body>
+<div class="mesh"></div>
+
+<!-- NAV -->
+<nav id="nav">
+  <div class="nav-logo">felixnrc<span>.ar</span></div>
+  <ul class="nav-links">
+    <li><a href="#about">Sobre mí</a></li>
+    <li><a href="#experience">Experiencia</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#projects">Proyectos</a></li>
+    <li><a href="#contact">Contacto</a></li>
+  </ul>
+  <div class="hamburger" id="hbg" onclick="toggleMenu()"><span></span><span></span><span></span></div>
+</nav>
+<div class="mob-menu" id="mobMenu">
+  <a href="#about"      onclick="closeMenu()">Sobre mí</a>
+  <a href="#experience" onclick="closeMenu()">Experiencia</a>
+  <a href="#skills"     onclick="closeMenu()">Skills</a>
+  <a href="#projects"   onclick="closeMenu()">Proyectos</a>
+  <a href="#contact"    onclick="closeMenu()">Contacto</a>
+</div>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-in">
+    <div>
+      <div class="badge"><span class="dot-live"></span> Actualmente en Cooperativa CALF</div>
+      <h1>Felix Natanael<br><span class="grad">Rojas Carballo</span></h1>
+      <div class="tw-wrap"><span id="typed"></span><span class="cursor">_</span></div>
+      <p class="hero-p">SysAdmin Sr. con +5 años en infraestructura crítica 24/7. Experiencia en Linux, Docker, virtualización y monitoreo en entornos productivos de alta disponibilidad. Orientado a SRE.</p>
+      <div class="cta">
+        <a href="#experience" class="btn btn-p">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg>
+          Ver Experiencia
+        </a>
+        <a href="#contact" class="btn btn-o">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,12 2,6"/></svg>
+          Contactar
+        </a>
+      </div>
+    </div>
+    <div class="hero-photo">
+      <div class="photo-outer">
+        <div class="photo-glow"></div>
+        <div class="photo-ring">
+          <div class="photo-bg">
+            <!-- Save your professional photo as profile.jpg in the repo root -->
+            <img src="profile.jpg"
+                 onerror="this.src='https://avatars.githubusercontent.com/u/42502767?v=4'"
+                 alt="Felix Natanael Rojas Carballo">
+          </div>
+        </div>
+        <div class="loc-badge">📍 Neuquén Capital, Argentina</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="container">
+    <div class="lbl reveal">whoami</div>
+    <h2 class="stitle reveal">Sobre Mí</h2>
+    <div class="about-grid">
+      <div class="terminal reveal">
+        <div class="tbar">
+          <div class="dot dr"></div><div class="dot dy"></div><div class="dot dg"></div>
+          <span class="tfname">~ about.sh</span>
+        </div>
+        <div class="tbody">
+          <div class="tl"><span class="tp">$</span><span class="tc"># Identificación</span></div>
+          <div class="tl"><span class="tp">→</span><span class="tk">nombre</span><span class="tv">Felix Natanael Rojas Carballo</span></div>
+          <div class="tl"><span class="tp">→</span><span class="tk">rol</span><span class="tv">SysAdmin Sr. | Orientado a SRE</span></div>
+          <div class="tl"><span class="tp">→</span><span class="tk">ubicación</span><span class="tv">Neuquén Capital, Argentina 🇦🇷</span></div>
+          <div class="tl"><span class="tp">→</span><span class="tk">empresa</span><span class="tv">Cooperativa CALF (2021→hoy)</span></div>
+          <div class="tl">&nbsp;</div>
+          <div class="tl"><span class="tp">$</span><span class="tc"># Stack core</span></div>
+          <div class="tl"><span class="tp">→</span><span class="tk">os</span><span class="tv">Linux (prod) · Windows Server</span></div>
+          <div class="tl"><span class="tp">→</span><span class="tk">containers</span><span class="tv">Docker · Kubernetes</span></div>
+          <div class="tl"><span class="tp">→</span><span class="tk">virt</span><span class="tv">VMware · Proxmox</span></div>
+          <div class="tl"><span class="tp">→</span><span class="tk">observ</span><span class="tv">Grafana · Prometheus</span></div>
+          <div class="tl"><span class="tp">→</span><span class="tk">redes</span><span class="tv">Mikrotik · Ubiquiti · VPN</span></div>
+          <div class="tl">&nbsp;</div>
+          <div class="tl"><span class="tp">$</span><span class="tc"># Links</span></div>
+          <div class="tl"><span class="tp">→</span><span class="tk">github</span><span class="tv"><a href="https://github.com/felixnrc" target="_blank">@felixnrc</a></span></div>
+          <div class="tl"><span class="tp">→</span><span class="tk">linkedin</span><span class="tv"><a href="https://linkedin.com/in/felixnrc" target="_blank">in/felixnrc</a></span></div>
+          <div class="tl"><span class="tp">→</span><span class="tk">mail</span><span class="tv"><a href="mailto:felixnrc@gmail.com">felixnrc@gmail.com</a></span></div>
+        </div>
+      </div>
+      <div class="about-right">
+        <p>¿Buscás un SysAdmin que no solo apague incendios, sino que los prevenga? Administro infraestructura IT crítica con más de 5 años de experiencia en entornos 24/7 de alta disponibilidad — específicamente en organizaciones de servicios públicos y comercio mayorista donde el tiempo de inactividad no es una opción.</p>
+        <p>Mi perfil evoluciona hacia SRE (Site Reliability Engineering), con foco en automatización, observabilidad y mejora continua. Implementé monitoreo con Grafana + Prometheus en infraestructura crítica, estandaricé procedimientos de soporte y participé en la resolución de incidentes de alto impacto.</p>
+        <div class="stat-grid">
+          <div class="stat-card"><div class="snum">5+</div><div class="slbl">Años en entornos 24/7</div></div>
+          <div class="stat-card"><div class="snum">300K</div><div class="slbl">Usuarios en producción</div></div>
+          <div class="stat-card"><div class="snum">5</div><div class="slbl">Empresas · 2 países</div></div>
+          <div class="stat-card"><div class="snum">SRE</div><div class="slbl">Orientación profesional</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="container">
+    <div class="lbl reveal">career_log</div>
+    <h2 class="stitle reveal">Experiencia</h2>
+    <p class="sdesc reveal">Trayectoria profesional desde Venezuela hasta Argentina, con foco en infraestructura crítica y administración de sistemas.</p>
+    <div class="timeline">
+
+      <div class="tl-item current reveal">
+        <div class="tl-dot"></div>
+        <div class="tl-card">
+          <div class="tl-head">
+            <div>
+              <div class="tl-role">Administrador de Sistemas | SysAdmin Sr.</div>
+              <div class="tl-company">Cooperativa CALF</div>
+            </div>
+            <span class="tl-date">Sep 2021 — Presente</span>
+          </div>
+          <div class="tl-location">📍 Neuquén, Argentina · Cooperativa Provincial de Servicios Públicos y Comunitarios</div>
+          <ul class="tl-points">
+            <li>Infraestructura IT crítica para cooperativa eléctrica con 300.000+ usuarios, garantizando alta disponibilidad 24/7.</li>
+            <li>Administración de servidores Linux y Windows en entornos de producción con alta disponibilidad.</li>
+            <li>Implementación y gestión de contenedores Docker para servicios internos.</li>
+            <li>Automatización de tareas operativas mediante scripting en Bash y Python.</li>
+            <li>Monitoreo proactivo con Grafana y Prometheus sobre datos reales de producción.</li>
+            <li>Configuración y mantenimiento de equipos de red: switches, routers, firewalls.</li>
+            <li>Gestión de backups y planes de recuperación ante desastres.</li>
+            <li><strong style="color:var(--acc)">Logro:</strong> Implementé stack Grafana + Prometheus mejorando detección temprana de incidentes en infraestructura crítica.</li>
+          </ul>
+          <div class="tl-tags">
+            <span class="tl-tag">Linux</span><span class="tl-tag">Docker</span><span class="tl-tag">Grafana</span>
+            <span class="tl-tag">Prometheus</span><span class="tl-tag">Bash</span><span class="tl-tag">Python</span><span class="tl-tag">Networking</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="tl-item reveal">
+        <div class="tl-dot"></div>
+        <div class="tl-card">
+          <div class="tl-head">
+            <div>
+              <div class="tl-role">Auditor Interno de TI</div>
+              <div class="tl-company">Corralón Mayorista SRL</div>
+            </div>
+            <span class="tl-date">Nov 2019 — Sep 2021</span>
+          </div>
+          <div class="tl-location">📍 Neuquén, Argentina · Comercio Mayorista</div>
+          <ul class="tl-points">
+            <li>Administración de servidores Windows y Linux en entornos on-premise.</li>
+            <li>Gestión de redes LAN/WAN y servidores de CCTV IP.</li>
+            <li>Auditoría de seguridad informática y gestión de accesos.</li>
+            <li>Administración del sistema de gestión ERP corporativo.</li>
+            <li><strong style="color:var(--acc)">Logro:</strong> Detecté y corregí vulnerabilidades críticas en infraestructura de red durante auditorías internas.</li>
+          </ul>
+          <div class="tl-tags">
+            <span class="tl-tag">Linux</span><span class="tl-tag">Windows Server</span><span class="tl-tag">LAN/WAN</span>
+            <span class="tl-tag">CCTV</span><span class="tl-tag">ERP</span><span class="tl-tag">Seguridad</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="tl-item reveal">
+        <div class="tl-dot"></div>
+        <div class="tl-card">
+          <div class="tl-head">
+            <div>
+              <div class="tl-role">Técnico de Soporte de Aplicaciones</div>
+              <div class="tl-company">Puente//Web S.A.</div>
+            </div>
+            <span class="tl-date">Feb 2018 — Nov 2019</span>
+          </div>
+          <div class="tl-location">📍 Neuquén, Argentina · Software de Gestión Comercial</div>
+          <ul class="tl-points">
+            <li>HelpDesk y soporte funcional sobre ERP de gestión comercial a más de 300 usuarios.</li>
+            <li>Administración de servidores Windows y Linux en entornos productivos.</li>
+            <li>Mantenimiento y administración de bases de datos Microsoft SQL Server.</li>
+            <li>Desarrollo de herramientas internas con Rad Studio (Delphi).</li>
+            <li><strong style="color:var(--acc)">Logro:</strong> Optimicé consultas en SQL Server reduciendo tiempos de respuesta en entornos de producción.</li>
+          </ul>
+          <div class="tl-tags">
+            <span class="tl-tag">SQL Server</span><span class="tl-tag">Linux</span><span class="tl-tag">Windows Server</span>
+            <span class="tl-tag">ERP</span><span class="tl-tag">Delphi</span><span class="tl-tag">HelpDesk</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="tl-item reveal">
+        <div class="tl-dot"></div>
+        <div class="tl-card">
+          <div class="tl-head">
+            <div>
+              <div class="tl-role">Consultor Senior IT</div>
+              <div class="tl-company">Indexa IT Solutions, C.A.</div>
+            </div>
+            <span class="tl-date">Abr 2017 — Nov 2017</span>
+          </div>
+          <div class="tl-location">📍 Valencia, Carabobo, Venezuela</div>
+          <ul class="tl-points">
+            <li>Administración de infraestructura tecnológica: redes y servidores.</li>
+            <li>HelpDesk a más de 100 usuarios.</li>
+            <li>Asesoramiento IT a clientes.</li>
+          </ul>
+          <div class="tl-tags">
+            <span class="tl-tag">Infraestructura</span><span class="tl-tag">Redes</span><span class="tl-tag">Servidores</span><span class="tl-tag">HelpDesk</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="tl-item reveal">
+        <div class="tl-dot"></div>
+        <div class="tl-card">
+          <div class="tl-head">
+            <div>
+              <div class="tl-role">Analista de Sistemas Senior</div>
+              <div class="tl-company">Motores Camoruco C.A.</div>
+            </div>
+            <span class="tl-date">Oct 2016 — Abr 2017</span>
+          </div>
+          <div class="tl-location">📍 Carabobo, Venezuela</div>
+          <ul class="tl-points">
+            <li>Administración de servidores de virtualización bajo Linux Enterprise e IBM AS/400.</li>
+            <li>Soporte a más de 30 usuarios en software y hardware.</li>
+            <li>Administración de servidores y NVR CCTV IP.</li>
+            <li>Administración de redes y VPN entre sucursales.</li>
+          </ul>
+          <div class="tl-tags">
+            <span class="tl-tag">Linux Enterprise</span><span class="tl-tag">IBM AS/400</span>
+            <span class="tl-tag">VPN</span><span class="tl-tag">CCTV</span><span class="tl-tag">Virtualización</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="container">
+    <div class="lbl reveal">tech_stack</div>
+    <h2 class="stitle reveal">Habilidades Técnicas</h2>
+    <p class="sdesc reveal">Tecnologías con las que trabajo en producción y las que estoy incorporando.</p>
+    <div class="skills-grid">
+      <div class="skill-cat reveal">
+        <div class="sc-icon">🐧</div>
+        <div class="sc-title">Sistemas Operativos</div>
+        <div class="tags">
+          <span class="tag">Linux</span><span class="tag">Ubuntu</span><span class="tag">Debian</span>
+          <span class="tag">RHEL</span><span class="tag">Windows Server</span>
+        </div>
+      </div>
+      <div class="skill-cat reveal">
+        <div class="sc-icon">🖥️</div>
+        <div class="sc-title">Virtualización</div>
+        <div class="tags">
+          <span class="tag">VMware</span><span class="tag">Proxmox</span><span class="tag">IBM AS/400</span>
+        </div>
+      </div>
+      <div class="skill-cat reveal">
+        <div class="sc-icon">🌐</div>
+        <div class="sc-title">Redes & Seguridad</div>
+        <div class="tags">
+          <span class="tag">Mikrotik</span><span class="tag">RouterOS</span><span class="tag">Ubiquiti</span>
+          <span class="tag">VPN</span><span class="tag">Firewalls</span><span class="tag">LAN/WAN</span>
+        </div>
+      </div>
+      <div class="skill-cat reveal">
+        <div class="sc-icon">🐳</div>
+        <div class="sc-title">Contenedores & Orquestación</div>
+        <div class="tags">
+          <span class="tag">Docker</span><span class="tag">Kubernetes</span><span class="tag">Raspberry Pi</span>
+        </div>
+      </div>
+      <div class="skill-cat reveal">
+        <div class="sc-icon">📊</div>
+        <div class="sc-title">Monitoreo & Observabilidad</div>
+        <div class="tags">
+          <span class="tag">Prometheus</span><span class="tag">Grafana</span>
+        </div>
+      </div>
+      <div class="skill-cat reveal">
+        <div class="sc-icon">⚙️</div>
+        <div class="sc-title">Scripting & Bases de Datos</div>
+        <div class="tags">
+          <span class="tag">Bash</span><span class="tag">Python</span><span class="tag">PowerShell</span>
+          <span class="tag">SQL Server</span><span class="tag">MariaDB</span>
+        </div>
+      </div>
+      <div class="skill-cat reveal" style="grid-column: 1 / -1;">
+        <div class="sc-icon">🚀</div>
+        <div class="sc-title">Aprendiendo</div>
+        <div class="tags">
+          <span class="tag learn">JavaScript</span><span class="tag learn">Vue.js</span>
+          <span class="tag learn">Nuxt.js</span><span class="tag learn">TailwindCSS</span>
+          <span class="tag learn">Flask</span><span class="tag learn">Git avanzado</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CERTS -->
+<section id="certs">
+  <div class="container">
+    <div class="lbl reveal">certifications</div>
+    <h2 class="stitle reveal">Certificaciones</h2>
+    <div class="certs-grid">
+      <div class="cert-card reveal">
+        <div class="cert-icon">🛡️</div>
+        <div><div class="cert-name">CyberOps Associate</div><div class="cert-org">Cisco</div></div>
+      </div>
+      <div class="cert-card reveal">
+        <div class="cert-icon">🔀</div>
+        <div><div class="cert-name">Curso Profesional de Git y GitHub</div><div class="cert-org">Platzi</div></div>
+      </div>
+      <div class="cert-card reveal">
+        <div class="cert-icon">⚡</div>
+        <div><div class="cert-name">Arquitectura de Alta Concurrencia</div><div class="cert-org">Platzi</div></div>
+      </div>
+      <div class="cert-card reveal">
+        <div class="cert-icon">💻</div>
+        <div><div class="cert-name">Terminal y Línea de Comandos</div><div class="cert-org">Platzi</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="container">
+    <div class="lbl reveal">./projects</div>
+    <h2 class="stitle reveal">Proyectos Open Source</h2>
+    <p class="sdesc reveal">Proyectos que desarrollé y compartí en GitHub.</p>
+    <div class="proj-grid">
+
+      <a href="https://github.com/felixnrc/Docker-Raspberry-PI-Monitoring" target="_blank" rel="noopener" class="proj-card reveal">
+        <div class="proj-head">
+          <div class="picon">📊</div>
+          <div class="gh-btn"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.44 9.8 8.21 11.39.6.11.79-.26.79-.58v-2.23c-3.34.73-4.03-1.42-4.03-1.42-.55-1.39-1.34-1.76-1.34-1.76-1.09-.74.08-.73.08-.73 1.2.08 1.84 1.24 1.84 1.24 1.07 1.83 2.81 1.3 3.49 1 .11-.78.42-1.31.76-1.61-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.12-.3-.54-1.52.12-3.18 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 0 1 3-.4c1.02 0 2.05.14 3 .4 2.29-1.55 3.3-1.23 3.3-1.23.66 1.66.24 2.88.12 3.18.77.84 1.24 1.91 1.24 3.22 0 4.61-2.81 5.63-5.48 5.92.43.37.82 1.1.82 2.22v3.29c0 .32.19.69.8.58C20.56 21.8 24 17.3 24 12 24 5.37 18.63 0 12 0z"/></svg></div>
+        </div>
+        <div class="pname">Docker Raspberry Pi Monitoring</div>
+        <div class="pdesc">Stack de monitoreo completo para Raspberry Pi con Docker Compose. Visualización de métricas del sistema en tiempo real con Prometheus y Grafana.</div>
+        <div class="ptech">
+          <span class="ptag">Docker</span><span class="ptag">Prometheus</span><span class="ptag">Grafana</span><span class="ptag">Raspberry Pi</span>
+        </div>
+      </a>
+
+      <a href="https://github.com/felixnrc/script-usuarios-ps-csv" target="_blank" rel="noopener" class="proj-card reveal">
+        <div class="proj-head">
+          <div class="picon">⚙️</div>
+          <div class="gh-btn"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.44 9.8 8.21 11.39.6.11.79-.26.79-.58v-2.23c-3.34.73-4.03-1.42-4.03-1.42-.55-1.39-1.34-1.76-1.34-1.76-1.09-.74.08-.73.08-.73 1.2.08 1.84 1.24 1.84 1.24 1.07 1.83 2.81 1.3 3.49 1 .11-.78.42-1.31.76-1.61-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.12-.3-.54-1.52.12-3.18 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 0 1 3-.4c1.02 0 2.05.14 3 .4 2.29-1.55 3.3-1.23 3.3-1.23.66 1.66.24 2.88.12 3.18.77.84 1.24 1.91 1.24 3.22 0 4.61-2.81 5.63-5.48 5.92.43.37.82 1.1.82 2.22v3.29c0 .32.19.69.8.58C20.56 21.8 24 17.3 24 12 24 5.37 18.63 0 12 0z"/></svg></div>
+        </div>
+        <div class="pname">Script Usuarios PowerShell + CSV</div>
+        <div class="pdesc">Automatización de creación masiva de usuarios en Active Directory usando PowerShell con importación desde CSV. Ideal para despliegues corporativos.</div>
+        <div class="ptech">
+          <span class="ptag">PowerShell</span><span class="ptag">Active Directory</span><span class="ptag">CSV</span>
+        </div>
+      </a>
+
+      <a href="https://github.com/felixnrc/felix_open_service" target="_blank" rel="noopener" class="proj-card reveal">
+        <div class="proj-head">
+          <div class="picon">🌐</div>
+          <div class="gh-btn"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.44 9.8 8.21 11.39.6.11.79-.26.79-.58v-2.23c-3.34.73-4.03-1.42-4.03-1.42-.55-1.39-1.34-1.76-1.34-1.76-1.09-.74.08-.73.08-.73 1.2.08 1.84 1.24 1.84 1.24 1.07 1.83 2.81 1.3 3.49 1 .11-.78.42-1.31.76-1.61-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.12-.3-.54-1.52.12-3.18 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 0 1 3-.4c1.02 0 2.05.14 3 .4 2.29-1.55 3.3-1.23 3.3-1.23.66 1.66.24 2.88.12 3.18.77.84 1.24 1.91 1.24 3.22 0 4.61-2.81 5.63-5.48 5.92.43.37.82 1.1.82 2.22v3.29c0 .32.19.69.8.58C20.56 21.8 24 17.3 24 12 24 5.37 18.63 0 12 0z"/></svg></div>
+        </div>
+        <div class="pname">Felix Open Service</div>
+        <div class="pdesc">Página de servicios y recursos abiertos. Proyecto personal de práctica de desarrollo web con HTML, CSS y JavaScript.</div>
+        <div class="ptech">
+          <span class="ptag">HTML</span><span class="ptag">CSS</span><span class="ptag">JavaScript</span>
+        </div>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="container">
+    <div class="contact-wrap">
+      <div class="lbl reveal" style="text-align:center">get_in_touch</div>
+      <h2 class="stitle reveal" style="text-align:center; margin-bottom:2rem">Hablemos</h2>
+      <div class="contact-card reveal">
+        <p>¿Tenés un proyecto interesante, querés hablar de infraestructura o simplemente conectar? No dudes en escribirme.</p>
+        <div class="socials">
+          <a href="https://github.com/felixnrc" target="_blank" rel="noopener" class="soc">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.44 9.8 8.21 11.39.6.11.79-.26.79-.58v-2.23c-3.34.73-4.03-1.42-4.03-1.42-.55-1.39-1.34-1.76-1.34-1.76-1.09-.74.08-.73.08-.73 1.2.08 1.84 1.24 1.84 1.24 1.07 1.83 2.81 1.3 3.49 1 .11-.78.42-1.31.76-1.61-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.12-.3-.54-1.52.12-3.18 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 0 1 3-.4c1.02 0 2.05.14 3 .4 2.29-1.55 3.3-1.23 3.3-1.23.66 1.66.24 2.88.12 3.18.77.84 1.24 1.91 1.24 3.22 0 4.61-2.81 5.63-5.48 5.92.43.37.82 1.1.82 2.22v3.29c0 .32.19.69.8.58C20.56 21.8 24 17.3 24 12 24 5.37 18.63 0 12 0z"/></svg>
+            GitHub
+          </a>
+          <a href="https://linkedin.com/in/felixnrc" target="_blank" rel="noopener" class="soc">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20.45 20.45h-3.55v-5.57c0-1.33-.03-3.04-1.85-3.04-1.85 0-2.14 1.44-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12zm1.78 13.02H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0z"/></svg>
+            LinkedIn
+          </a>
+          <a href="mailto:felixnrc@gmail.com" class="soc">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,12 2,6"/></svg>
+            Email
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>© 2025 <a href="https://github.com/felixnrc">Felix Natanael Rojas Carballo</a> · Neuquén, Patagonia 🇦🇷</p>
+</footer>
+
+<script>
+  // Typewriter
+  const words = ['SysAdmin Sr.', 'Infrastructure Engineer', 'Docker · Linux · Grafana', 'Orientado a SRE', 'Automatización IT'];
+  let wi = 0, ci = 0, del = false;
+  function type() {
+    const el = document.getElementById('typed');
+    const w = words[wi];
+    if (!del) {
+      el.textContent = w.slice(0, ++ci);
+      if (ci === w.length) { del = true; setTimeout(type, 2400); return; }
+    } else {
+      el.textContent = w.slice(0, --ci);
+      if (ci === 0) { del = false; wi = (wi + 1) % words.length; }
+    }
+    setTimeout(type, del ? 48 : 88);
+  }
+  type();
+
+  // Reveal on scroll
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('vis'); });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.reveal').forEach((el, i) => {
+    el.style.transitionDelay = (i % 5) * 0.07 + 's';
+    obs.observe(el);
+  });
+
+  // Nav
+  window.addEventListener('scroll', () => {
+    document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 40);
+  });
+
+  // Mobile menu
+  function toggleMenu() {
+    document.getElementById('hbg').classList.toggle('open');
+    document.getElementById('mobMenu').classList.toggle('open');
+  }
+  function closeMenu() {
+    document.getElementById('hbg').classList.remove('open');
+    document.getElementById('mobMenu').classList.remove('open');
+  }
+</script>
+</body>
+</html>
