@@ -12,18 +12,18 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --bg:      #060912;
-      --bg1:     #0d1117;
-      --glass:   rgba(255,255,255,0.05);
-      --border:  rgba(255,255,255,0.09);
-      --prim:    #818cf8;
-      --primd:   #4f46e5;
-      --sec:     #c084fc;
-      --acc:     #34d399;
-      --cyan:    #22d3ee;
-      --text:    #f1f5f9;
-      --muted:   #94a3b8;
-      --subtle:  #475569;
+      --bg:      #000000;
+      --bg1:     #0a0a0a;
+      --glass:   rgba(0,255,0,0.05);
+      --border:  rgba(0,255,0,0.15);
+      --prim:    #00ff00;
+      --primd:   #00cc00;
+      --sec:     #00ffff;
+      --acc:     #00ff88;
+      --cyan:    #00ffff;
+      --text:    #ffffff;
+      --muted:   #888888;
+      --subtle:  #444444;
     }
 
     html { scroll-behavior: smooth; }
@@ -36,9 +36,9 @@
     .mesh {
       position: fixed; inset: 0; z-index: 0; pointer-events: none;
       background:
-        radial-gradient(ellipse 70% 55% at 15%  8%, rgba(99,102,241,.15) 0%, transparent 65%),
-        radial-gradient(ellipse 55% 45% at 85% 92%, rgba(168,85,247,.12) 0%, transparent 60%),
-        radial-gradient(ellipse 45% 35% at 55% 50%, rgba(34,211,238,.06) 0%, transparent 60%);
+        radial-gradient(ellipse 70% 55% at 15%  8%, rgba(0,255,0,.08) 0%, transparent 65%),
+        radial-gradient(ellipse 55% 45% at 85% 92%, rgba(0,255,136,.06) 0%, transparent 60%),
+        radial-gradient(ellipse 45% 35% at 55% 50%, rgba(0,255,255,.04) 0%, transparent 60%);
     }
 
     section { position: relative; z-index: 1; }
@@ -83,8 +83,8 @@
     /* animations */
     @keyframes fadeUp { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
     @keyframes fadeIn  { from { opacity:0; } to { opacity:1; } }
-    @keyframes spin    { to { transform: rotate(360deg); } }
-    @keyframes gpulse  { 0%,100% { transform:scale(1); opacity:1; } 50% { transform:scale(1.07); opacity:.6; } }
+    @keyframes photoEnter { from { opacity:0; transform:scale(0.82); filter:blur(6px); } to { opacity:1; transform:scale(1); filter:blur(0px); } }
+    @keyframes glowEnter { from { opacity:0; } to { opacity:1; } }
     @keyframes blink   { 0%,100% { opacity:1; } 50% { opacity:0; } }
 
     .reveal { opacity: 0; transform: translateY(26px); transition: opacity .65s ease, transform .65s ease; }
@@ -114,12 +114,14 @@
     /* photo */
     .hero-photo { display: flex; justify-content: center; opacity: 0; animation: fadeIn .9s .5s forwards; }
     .photo-outer { position: relative; display: inline-block; }
-    .photo-glow { position: absolute; inset: -20px; border-radius: 50%; z-index: 0; background: radial-gradient(circle, rgba(99,102,241,.22) 0%, transparent 70%); animation: gpulse 3s ease-in-out infinite; }
-    .photo-ring { width: 300px; height: 300px; border-radius: 50%; padding: 4px; background: conic-gradient(from 0deg, var(--prim), var(--sec), var(--cyan), var(--prim)); animation: spin 8s linear infinite; position: relative; z-index: 1; }
+    .photo-glow { position: absolute; inset: -20px; border-radius: 50%; z-index: 0; background: radial-gradient(circle, rgba(0,255,0,.15) 0%, transparent 70%); opacity: 0; transition: opacity .8s ease .2s; }
+    .photo-ring { width: 300px; height: 300px; border-radius: 50%; padding: 4px; background: conic-gradient(from 0deg, var(--prim), var(--acc), var(--cyan), var(--prim)); position: relative; z-index: 1; opacity: 0; transform: scale(0.82); filter: blur(6px); transition: opacity .8s ease, transform .8s ease, filter .8s ease; }
+    .photo-ring.animate { opacity: 1; transform: scale(1); filter: blur(0px); }
+    .photo-ring.animate ~ .photo-glow { opacity: 1; }
     .photo-bg { width: 100%; height: 100%; border-radius: 50%; background: var(--bg); overflow: hidden; }
     .photo-bg img { width: 100%; height: 100%; object-fit: cover; object-position: top center; filter: grayscale(20%); transition: filter .4s; }
     .photo-bg img:hover { filter: grayscale(0%); }
-    .loc-badge { position: absolute; bottom: -6px; left: 50%; transform: translateX(-50%); background: rgba(13,17,23,.92); border: 1px solid var(--border); backdrop-filter: blur(12px); padding: .32rem .85rem; border-radius: 2rem; font-size: .76rem; color: var(--muted); white-space: nowrap; z-index: 10; }
+    .loc-badge { position: absolute; bottom: -6px; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,.92); border: 1px solid var(--border); backdrop-filter: blur(12px); padding: .32rem .85rem; border-radius: 2rem; font-size: .76rem; color: var(--muted); white-space: nowrap; z-index: 10; }
 
     /* ========= ABOUT ========= */
     #about { padding: 6rem 0; }
@@ -632,7 +634,7 @@
             <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20.45 20.45h-3.55v-5.57c0-1.33-.03-3.04-1.85-3.04-1.85 0-2.14 1.44-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12zm1.78 13.02H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0z"/></svg>
             LinkedIn
           </a>
-          <a href="mailto:felixnrc@gmail.com" class="soc">
+          <a href="mailto:felixnrc@protonmail.com" class="soc">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,12 2,6"/></svg>
             Email
           </a>
@@ -672,6 +674,20 @@
     el.style.transitionDelay = (i % 5) * 0.07 + 's';
     obs.observe(el);
   });
+
+  // Photo animation on scroll
+  const photoRing = document.querySelector('.photo-ring');
+  if (photoRing) {
+    const photoObs = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('animate');
+          photoObs.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.5 });
+    photoObs.observe(photoRing);
+  }
 
   // Nav
   window.addEventListener('scroll', () => {
