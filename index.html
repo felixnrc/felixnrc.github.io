@@ -144,8 +144,12 @@
 
     /* section labels */
     .lbl { font-family: 'JetBrains Mono', monospace; font-size: .73rem; color: var(--acc); letter-spacing: .15em; text-transform: uppercase; margin-bottom: .55rem; }
-    .stitle { font-size: clamp(1.65rem, 2.7vw, 2.2rem); font-weight: 700; margin-bottom: .75rem; }
+    .stitle { font-size: clamp(1.65rem, 2.7vw, 2.2rem); font-weight: 700; margin-bottom: .75rem; text-wrap: balance; }
     .sdesc { color: var(--muted); max-width: 520px; margin-bottom: 2.8rem; font-size: .97rem; }
+    h1 { text-wrap: balance; }
+    .hero-p { max-width: 60ch; }
+    .about-right p { max-width: 65ch; }
+    .pdesc { max-width: 55ch; }
 
     /* animations */
     @keyframes fadeUp { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
