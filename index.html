@@ -65,6 +65,8 @@
 
     :focus { outline: none; }
     :focus-visible { outline: 2px solid var(--prim); outline-offset: 3px; border-radius: 3px; }
+    .skip-link { position: absolute; top: -100%; left: 1rem; background: var(--prim); color: #000; font-weight: 700; padding: .5rem 1rem; border-radius: 0 0 .4rem .4rem; z-index: 9999; transition: top var(--dur-fast); }
+    .skip-link:focus { top: 0; }
 
     :root {
       /* Surface */
@@ -94,7 +96,7 @@
       --ease-in:  cubic-bezier(0.4, 0, 1, 1);
     }
 
-    html { scroll-behavior: smooth; }
+    html { scroll-behavior: smooth; scroll-padding-top: 70px; }
     body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; line-height: 1.6; overflow-x: hidden; }
     ::-webkit-scrollbar { width: 5px; }
     ::-webkit-scrollbar-track { background: var(--bg); }
@@ -333,6 +335,7 @@
   </style>
 </head>
 <body>
+<a href="#hero" class="skip-link">Saltar al contenido principal</a>
 <div class="mesh"></div>
 
 <!-- NAV -->
