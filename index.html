@@ -740,6 +740,32 @@
   }
   type();
 
+  // Stat counter animation
+  function animateCounter(el) {
+    const raw   = el.textContent.trim();
+    const match = raw.match(/^(\d+)(.*)$/);
+    if (!match) return;
+    const target = parseInt(match[1], 10);
+    const suffix = match[2];
+    const dur    = 1400;
+    const t0     = performance.now();
+    (function tick(now) {
+      const p = Math.min((now - t0) / dur, 1);
+      const e = 1 - Math.pow(1 - p, 3);
+      el.textContent = Math.round(e * target) + suffix;
+      if (p < 1) requestAnimationFrame(tick);
+    })(t0);
+  }
+  const counterObs = new IntersectionObserver(entries => {
+    entries.forEach(en => {
+      if (en.isIntersecting) {
+        animateCounter(en.target.querySelector('.snum'));
+        counterObs.unobserve(en.target);
+      }
+    });
+  }, { threshold: 0.6 });
+  document.querySelectorAll('.stat-card').forEach(c => counterObs.observe(c));
+
   // Reveal on scroll
   const obs = new IntersectionObserver(entries => {
     entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('vis'); });
